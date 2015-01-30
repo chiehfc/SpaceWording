@@ -406,7 +406,7 @@ void HelloWorld::update(float dt) {
     if( fmod(_elapsedTime, 10) <0.1)
         wordBomb=1;
     if(wordBomb==1)
-        this->textField->setString("Word Bomb is Ready!");
+        this->textField->setString("Word Bomb is so Ready!");
     //// WORDING_MECHANICS
 //    if(_shooting!=3)
 //        this->textField->setString("Ready!");
