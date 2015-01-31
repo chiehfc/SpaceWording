@@ -22,8 +22,10 @@ public:
     void gameOverDone();
 
     cocos2d::Label* getLabel() {return _label;}
+    cocos2d::Label* getBestScoreLabel() {return _bestScoreLabel;}
 private:
     cocos2d::Label* _label;
+    cocos2d::Label* _bestScoreLabel;
 };
 
 class GameOverScene : public cocos2d::Scene {

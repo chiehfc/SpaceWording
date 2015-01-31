@@ -63,6 +63,13 @@ bool GameOverLayer::init() {
     _label->setPosition(Point(winSize.width/2,winSize.height*0.6));
     this->addChild(_label);
     
+    this->_bestScoreLabel = Label::createWithBMFont("double_boxy.fnt", "");
+    _bestScoreLabel->setScale(2.0f);
+    _bestScoreLabel->retain();
+    _bestScoreLabel->setPosition(Point(winSize.width/2,winSize.height*0.3));
+    this->addChild(_bestScoreLabel);
+    
+        
     this->runAction(Sequence::create(DelayTime::create(5),
                                      CallFunc::create(std::bind(&GameOverLayer::gameOverDone, this)),
                                      NULL));

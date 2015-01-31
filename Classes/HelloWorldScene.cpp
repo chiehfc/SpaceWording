@@ -410,6 +410,17 @@ void HelloWorld::spriteMoveFinished(Node *sender) {
             char text[256];
             sprintf(text, "You Lose!!!\nGame Time: %.2f\nGame Level: %d", _elapsedTime, _monsterNumber);
             gameOverScene->getLayer()->getLabel()->setString(text);
+            
+            float bestScore = UserDefault::getInstance()->getFloatForKey("BestScore");
+
+            if(bestScore<_elapsedTime) {
+                UserDefault::getInstance()->setFloatForKey("BestScore", _elapsedTime);
+                sprintf(text, "Best Score: %.2f", _elapsedTime);
+            } else
+                sprintf(text, "Best Score: %.2f", bestScore);
+            
+            gameOverScene->getLayer()->getBestScoreLabel()->setString(text);
+            
             CocosDenshion::SimpleAudioEngine::getInstance()->stopBackgroundMusic();
             this->textField->detachWithIME();
             Director::getInstance()->replaceScene(gameOverScene);
@@ -545,13 +556,13 @@ void HelloWorld::update(float dt) {
     this->timeLabel->setString(text1);
     
     // Game Win Scene
-    if (_projectilesDestroyed >= 50)
-    {
-        GameOverScene *gameOverScene = GameOverScene::create();
-        gameOverScene->getLayer()->getLabel()->setString("You Win!");
-        this->textField->detachWithIME();
-        CocosDenshion::SimpleAudioEngine::getInstance()->stopBackgroundMusic();
-        Director::getInstance()->replaceScene(gameOverScene);
-    }
+//    if (_projectilesDestroyed >= 50)
+//    {
+//        GameOverScene *gameOverScene = GameOverScene::create();
+//        gameOverScene->getLayer()->getLabel()->setString("You Win!");
+//        this->textField->detachWithIME();
+//        CocosDenshion::SimpleAudioEngine::getInstance()->stopBackgroundMusic();
+//        Director::getInstance()->replaceScene(gameOverScene);
+//    }
 }
 
