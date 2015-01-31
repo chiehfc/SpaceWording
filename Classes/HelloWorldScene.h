@@ -30,6 +30,7 @@ public:
     void addTarget();
     void spriteMoveFinished(Node *sender);
     void gameLogic(float dt);
+    void itemLogic(float dt);
     
     bool textFieldOnTouchBegan(cocos2d::Touch *touch, cocos2d::Event *event);
     bool onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *event);
@@ -44,6 +45,7 @@ public:
     
 protected:
     cocos2d::Vector<cocos2d::Sprite *> _targets;
+    cocos2d::Vector<cocos2d::Sprite *> _items;
     cocos2d::Vector<cocos2d::Sprite *> _projectiles;
     std::vector<std::string> _words;
     int _monsterNumber;

@@ -22,8 +22,14 @@ public:
     int locking; // if locking=1, it's locked by IME.
     std::string word;
     cocos2d::FiniteTimeAction *destroyedEffect();
-    virtual cocos2d::RepeatForever *movingAnimation();
     cocos2d::RepeatForever *repeat;
+};
+
+class HealthPack : public Item {
+public:
+    static HealthPack* healthPack(void);
+    
+    
 };
 
 #endif /* defined(__ZombieMatrix__Item__) */

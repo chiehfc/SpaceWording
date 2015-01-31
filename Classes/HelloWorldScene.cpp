@@ -4,6 +4,7 @@
 #include "GamePauseScene.h"
 #include "GameLevelScene.h"
 #include "Monster.h"
+#include "Item.h"
 #include <time.h>
 
 USING_NS_CC;
@@ -175,6 +176,8 @@ bool HelloWorld::init()
     
     this->schedule(schedule_selector(HelloWorld::gameLogic), 1.0);
 
+    this->schedule(schedule_selector(HelloWorld::itemLogic), 10.0);
+    
     this->schedule(schedule_selector(HelloWorld::update));
     return true;
 }
@@ -317,6 +320,36 @@ void HelloWorld::gameLogic(float dt) {
     this->addTarget();
 }
 
+void HelloWorld::itemLogic(float dt) {
+    Item *item;
+    item = HealthPack::healthPack();
+    
+    item->setTag(3);
+    _items.pushBack(item);
+    
+    Size winSize = Director::getInstance()->getWinSize();
+    
+    int minY = item->getContentSize().height/2;
+    int maxY = winSize.height - item->getContentSize().height/2;
+    
+    int rangeY = maxY-minY;
+    int actualY = (rand()%rangeY) + minY;
+    
+    item->setPosition(Point(winSize.width +(item->getContentSize().width/2), actualY));
+    this->addChild(item);
+    
+    int minDuration = item->minMoveDuration;
+    int maxDuration = item->maxMoveDuration;
+    int rangeDuration = maxDuration - minDuration;
+    int actualDuration = (rand()%rangeDuration)+ minDuration;
+    
+    FiniteTimeAction *actionMove = MoveTo::create((float)actualDuration, Vec2(0-item->getContentSize().width/2, actualY));
+    
+    FiniteTimeAction *actionMoveDone = CallFuncN::create(std::bind(&HelloWorld::spriteMoveFinished, this, std::placeholders::_1));
+    
+    item->runAction(Sequence::create(actionMove, actionMoveDone, NULL));
+}
+
 void HelloWorld::addTarget() {
     
     Monster *targetCool[9];
@@ -386,6 +419,9 @@ void HelloWorld::spriteMoveFinished(Node *sender) {
     else if(sprite->getTag()==2) {
         _projectiles.eraseObject(sprite);
     }
+    else if(sprite->getTag()==3) {
+        _items.eraseObject(sprite);
+    }
 }
 
 void HelloWorld::update(float dt) {
@@ -414,6 +450,7 @@ void HelloWorld::update(float dt) {
     bool monsterHit = false;
     cocos2d::Vector<cocos2d::Sprite *> projectilesToDelete;
     cocos2d::Vector<cocos2d::Sprite *> targetsToDelete;
+    cocos2d::Vector<cocos2d::Sprite *> itemsToDelete;
     
     //for(auto projectile: this->_projectiles) {
     for(int i=0;i<_projectiles.size();i++) {
@@ -422,7 +459,7 @@ void HelloWorld::update(float dt) {
                                    projectile->getPosition().y - (projectile->getContentSize().height/2),
                                    projectile->getContentSize().width,
                                    projectile->getContentSize().height);
-    
+        //// Monster Part
         for(int j=0;j<_targets.size();j++) {
             auto target = _targets.at(j);
             Rect targetRect = Rect(target->getPosition().x - (target->getContentSize().width/2),
@@ -444,6 +481,34 @@ void HelloWorld::update(float dt) {
                 break;
             }
         }
+        //// Item Part
+        for(int j=0;j<_items.size();j++) {
+            auto item = _items.at(j);
+            Rect itemRect = Rect(item->getPosition().x - (item->getContentSize().width/2),
+                                 item->getPosition().y - (item->getContentSize().height/2),
+                                 item->getContentSize().width,
+                                 item->getContentSize().height);
+            if (projectileRect.intersectsRect(itemRect))
+            {
+                Item *healthPack = (Item*)item;
+                healthPack->curHp--;
+                if(healthPack->curHp<=0) {
+                    wordBomb=1;
+                    itemsToDelete.pushBack(item);
+                }
+                projectilesToDelete.pushBack(projectile);
+                CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("explosion_small.caf");
+            }
+        }
+        
+        for(auto item:itemsToDelete) {
+            _items.eraseObject(item);
+            Item *healthPack = (Item*)item;
+            auto seq = Sequence::createWithTwoActions(healthPack->destroyedEffect(), RemoveSelf::create());
+            healthPack->runAction(seq);
+        }
+        itemsToDelete.clear();
+        
         for(Sprite* target: targetsToDelete) {
             _targets.eraseObject(target);
             Monster *monster = (Monster*)target;
