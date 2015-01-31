@@ -237,9 +237,9 @@ StrongAndSlowMonster* StrongAndSlowMonster::monster(void)
     StrongAndSlowMonster * monster = new StrongAndSlowMonster();
     if (monster && monster->initWithSpriteFrameName("spaceMonster2_1.png"))
     {
-        monster->curHp = 1;
-        monster->minMoveDuration = 3;
-        monster->maxMoveDuration = 5;
+        monster->curHp = 3;
+        monster->minMoveDuration = 6;
+        monster->maxMoveDuration = 12;
         monster->destroying = 0;
         monster->locking = 0;
         monster->word = "monster";
@@ -258,8 +258,8 @@ IvysaurMonster* IvysaurMonster::monster(void)
     if (monster && monster->initWithSpriteFrameName("spaceMonster3_1.png"))
     {
         monster->curHp = 1;
-        monster->minMoveDuration = 2;
-        monster->maxMoveDuration = 4;
+        monster->minMoveDuration = 3;
+        monster->maxMoveDuration = 5;
         monster->destroying = 0;
         monster->locking = 0;
         monster->word = "ivysaur";

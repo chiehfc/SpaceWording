@@ -61,6 +61,8 @@
 		4280FE4E1A774E8300DE67BC /* credit.png in Resources */ = {isa = PBXBuildFile; fileRef = 4280FE4C1A774E8300DE67BC /* credit.png */; };
 		42AE2BA81A1C1725007CB98C /* GraphicsScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42AE2BA61A1C1725007CB98C /* GraphicsScene.cpp */; };
 		42AE2BAA1A1C18AD007CB98C /* decepticon.png in Resources */ = {isa = PBXBuildFile; fileRef = 42AE2BA91A1C18AD007CB98C /* decepticon.png */; };
+		42B1192A1A7CB3ED00FCBA09 /* Item.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42B119281A7CB3ED00FCBA09 /* Item.cpp */; };
+		42B1192C1A7CB64F00FCBA09 /* healthPacks.png in Resources */ = {isa = PBXBuildFile; fileRef = 42B1192B1A7CB64F00FCBA09 /* healthPacks.png */; };
 		42BEAEBB1A1C6C560074EDFF /* ninja.png in Resources */ = {isa = PBXBuildFile; fileRef = 42BEAEB81A1C6C560074EDFF /* ninja.png */; };
 		42BEAEBC1A1C6C560074EDFF /* Player.png in Resources */ = {isa = PBXBuildFile; fileRef = 42BEAEB91A1C6C560074EDFF /* Player.png */; };
 		42BEAEBD1A1C6C560074EDFF /* Projectile.png in Resources */ = {isa = PBXBuildFile; fileRef = 42BEAEBA1A1C6C560074EDFF /* Projectile.png */; };
@@ -222,6 +224,9 @@
 		42AE2BA61A1C1725007CB98C /* GraphicsScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GraphicsScene.cpp; sourceTree = "<group>"; };
 		42AE2BA71A1C1725007CB98C /* GraphicsScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GraphicsScene.h; sourceTree = "<group>"; };
 		42AE2BA91A1C18AD007CB98C /* decepticon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = decepticon.png; sourceTree = "<group>"; };
+		42B119281A7CB3ED00FCBA09 /* Item.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Item.cpp; sourceTree = "<group>"; };
+		42B119291A7CB3ED00FCBA09 /* Item.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Item.h; sourceTree = "<group>"; };
+		42B1192B1A7CB64F00FCBA09 /* healthPacks.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = healthPacks.png; sourceTree = "<group>"; };
 		42BEAEB81A1C6C560074EDFF /* ninja.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ninja.png; sourceTree = "<group>"; };
 		42BEAEB91A1C6C560074EDFF /* Player.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Player.png; sourceTree = "<group>"; };
 		42BEAEBA1A1C6C560074EDFF /* Projectile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Projectile.png; sourceTree = "<group>"; };
@@ -413,6 +418,7 @@
 			isa = PBXGroup;
 			children = (
 				420BF9CD1A7B7301003E3709 /* rightArrow_pressed.png */,
+				42B1192B1A7CB64F00FCBA09 /* healthPacks.png */,
 				420BF9CE1A7B7301003E3709 /* rightArrow.png */,
 				420BF9CF1A7B7301003E3709 /* leftArrow_pressed.png */,
 				420BF9D01A7B7301003E3709 /* leftArrow.png */,
@@ -491,6 +497,8 @@
 				423C13D61A6B6B32005308F3 /* GameLevelScene.h */,
 				420BF9C21A7A0CDA003E3709 /* CreditScene.cpp */,
 				420BF9C31A7A0CDA003E3709 /* CreditScene.h */,
+				42B119281A7CB3ED00FCBA09 /* Item.cpp */,
+				42B119291A7CB3ED00FCBA09 /* Item.h */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -701,6 +709,7 @@
 				42BEAEBB1A1C6C560074EDFF /* ninja.png in Resources */,
 				42C69E961A746B6D00D17117 /* boxy_bold_font_4.png in Resources */,
 				420BF9CA1A7A15D9003E3709 /* pause_pressed.png in Resources */,
+				42B1192C1A7CB64F00FCBA09 /* healthPacks.png in Resources */,
 				427EA4931A1E8690000B0EDC /* laser_ship.caf in Resources */,
 				423C13DB1A6CB080005308F3 /* pikachu.png in Resources */,
 				4280FE4D1A774E8300DE67BC /* credit_pressed.png in Resources */,
@@ -747,6 +756,7 @@
 				420BF9C41A7A0CDA003E3709 /* CreditScene.cpp in Sources */,
 				46880B8A19C43A87006E1F66 /* HelloWorldScene.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
+				42B1192A1A7CB3ED00FCBA09 /* Item.cpp in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
 				423E77541A25A979000FAEA4 /* EnemyBase.cpp in Sources */,
 				423C13D41A6B568C005308F3 /* GamePauseScene.cpp in Sources */,

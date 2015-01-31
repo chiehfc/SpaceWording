@@ -55,6 +55,7 @@ protected:
     cocos2d::TextFieldTTF *textField;
     int _shooting;
     float _reloadTime;
+    float _bombReloadTime;
     int wordBomb;
     
     BackgroundLayer* _layer;

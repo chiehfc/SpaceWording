@@ -80,6 +80,7 @@ bool HelloWorld::init()
     _projectilesDestroyed = 0;
     _shooting = 0;
     _reloadTime = 0;
+    _bombReloadTime = 0;
     wordBomb = 0;
     
     Size winSize = Director::getInstance()->getWinSize();
@@ -237,7 +238,7 @@ bool HelloWorld::onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *event) {
     // click on specific monster
     for(auto target: _targets) {
         if(target->getBoundingBox().containsPoint(touch->getLocation())) {
-            CCLOG("YOOO");
+
         //    Monster *monster = (Monster*)target;  // WORDING_MECHANICS
         //    monster->locking = 1;                 // WORDING_MECHANICS
         //    this->textField->attachWithIME();     // WORDING_MECHANICS
@@ -334,7 +335,7 @@ void HelloWorld::addTarget() {
     int temp = CCRANDOM_0_1()*100;
     temp = temp % _monsterNumber;
     target = targetCool[temp];
-//    target->setScale(1.5f, 1.5f);
+
     Size winSize = Director::getInstance()->getWinSize();
     
     if(target->movingAnimation()!=NULL)
@@ -392,25 +393,23 @@ void HelloWorld::update(float dt) {
     _elapsedTime += dt;
     
     ////  Restricted bullets at most 3.
-    if( fmod(_elapsedTime, 1.5)<0.1 && _shooting==3)
-        _shooting=0;
-    
-    if(_shooting==3 && _reloadTime>1.5) {
+    ////  WORDING MECHANICS
+    if(_shooting > 0 && _reloadTime > 0.5) {
         _reloadTime = 0;
-        _shooting=0;
-    } else if(_shooting==3 && _reloadTime<1.5) {
-//        CCLOG("%d %f", _shooting, _reloadTime);
+        _shooting--;
+    } else if(_shooting > 0 && _reloadTime < 0.5) {
         _reloadTime+=dt;
     }
     
-    if( fmod(_elapsedTime, 10) <0.1)
+    if(wordBomb==0 && _bombReloadTime<5.0) {
+        _bombReloadTime+=dt;
+    } else if(wordBomb==0 && _bombReloadTime>5.0) {
         wordBomb=1;
+        _bombReloadTime=0;
+    }
+    
     if(wordBomb==1)
-        this->textField->setString("Word Bomb is so Ready!");
-    //// WORDING_MECHANICS
-//    if(_shooting!=3)
-//        this->textField->setString("Ready!");
-//    else this->textField->setString("Reloading...");
+        this->textField->setString("Word Bomb is Ready!");
     
     bool monsterHit = false;
     cocos2d::Vector<cocos2d::Sprite *> projectilesToDelete;
@@ -440,6 +439,8 @@ void HelloWorld::update(float dt) {
                 if(monster->curHp<=0) {
                     targetsToDelete.pushBack(target);
                 }
+                projectilesToDelete.pushBack(projectile);
+                CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("explosion_small.caf");
                 break;
             }
         }
@@ -461,18 +462,18 @@ void HelloWorld::update(float dt) {
         if (targetsToDelete.size() > 0)
         {
             if (monsterHit) {
-                projectilesToDelete.pushBack(projectile);
-                CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("explosion_small.caf");
+                CCLOG("WOW?");
+                
             }
         }
         targetsToDelete.clear();
+        for(auto projectile: projectilesToDelete) {
+            _projectiles.eraseObject(projectile);
+            this->removeChild(projectile, true);
+        }
+        projectilesToDelete.clear();
     }
 
-    for(auto projectile: projectilesToDelete) {
-        _projectiles.eraseObject(projectile);
-        this->removeChild(projectile, true);
-    }
-    projectilesToDelete.clear();
     
     char text1[256];
     sprintf(text1,"Time: %.2f", _elapsedTime);

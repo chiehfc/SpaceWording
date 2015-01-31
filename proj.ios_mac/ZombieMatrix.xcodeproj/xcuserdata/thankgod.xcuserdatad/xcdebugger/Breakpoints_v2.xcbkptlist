@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../Classes/HelloWorldScene.cpp"
-            timestampString = "444211674.71362"
+            timestampString = "444381580.933852"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "206"
-            endingLineNumber = "206"
+            startingLineNumber = "207"
+            endingLineNumber = "207"
             landmarkName = "HelloWorld::onTextFieldDetachWithIME(cocos2d::TextFieldTTF *sender)"
             landmarkType = "5">
          </BreakpointContent>
