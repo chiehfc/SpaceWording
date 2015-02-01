@@ -1,13 +1,13 @@
 //
 //  GameMenuScene.h
-//  ZombieMatrix
+//  SpaceWording
 //
 //  Created by Chieh-Fu Chen on 11/24/14.
 //
 //
 
-#ifndef __ZombieMatrix__GameMenuScene__
-#define __ZombieMatrix__GameMenuScene__
+#ifndef __SpaceWording__GameMenuScene__
+#define __SpaceWording__GameMenuScene__
 
 #include <stdio.h>
 #include "cocos2d.h"
@@ -27,4 +27,4 @@ private:
 };
 
 
-#endif /* defined(__ZombieMatrix__GameMenuScene__) */
+#endif /* defined(__SpaceWording__GameMenuScene__) */

@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:ZombieMatrix.xcodeproj">
+      location = "self:SpaceWording.xcodeproj">
    </FileRef>
 </Workspace>

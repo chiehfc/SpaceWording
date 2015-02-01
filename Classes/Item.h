@@ -1,13 +1,13 @@
 //
 //  Item.h
-//  ZombieMatrix
+//  SpaceWording
 //
 //  Created by Chieh-Fu Chen on 1/30/15.
 //
 //
 
-#ifndef __ZombieMatrix__Item__
-#define __ZombieMatrix__Item__
+#ifndef __SpaceWording__Item__
+#define __SpaceWording__Item__
 
 #include <stdio.h>
 #include "cocos2d.h"
@@ -32,4 +32,4 @@ public:
     
 };
 
-#endif /* defined(__ZombieMatrix__Item__) */
+#endif /* defined(__SpaceWording__Item__) */

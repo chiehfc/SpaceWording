@@ -1,13 +1,13 @@
 //
 //  GameOverScene.h
-//  ZombieMatrix
+//  SpaceWording
 //
 //  Created by Chieh-Fu Chen on 11/20/14.
 //
 //
 
-#ifndef __ZombieMatrix__GameOverScene__
-#define __ZombieMatrix__GameOverScene__
+#ifndef __SpaceWording__GameOverScene__
+#define __SpaceWording__GameOverScene__
 
 #include <stdio.h>
 #include "cocos2d.h"
@@ -41,5 +41,5 @@ private:
     GameOverLayer* _layer;
 };
 
-#endif /* defined(__ZombieMatrix__GameOverScene__) */
+#endif /* defined(__SpaceWording__GameOverScene__) */
 

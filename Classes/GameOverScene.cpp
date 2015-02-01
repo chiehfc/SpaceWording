@@ -1,6 +1,6 @@
 //
 //  GameOverScene.cpp
-//  ZombieMatrix
+//  SpaceWording
 //
 //  Created by Chieh-Fu Chen on 11/20/14.
 //

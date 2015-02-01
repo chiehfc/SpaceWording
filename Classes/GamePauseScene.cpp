@@ -1,6 +1,6 @@
 //
 //  GamePauseScene.cpp
-//  ZombieMatrix
+//  SpaceWording
 //
 //  Created by Chieh-Fu Chen on 1/17/15.
 //

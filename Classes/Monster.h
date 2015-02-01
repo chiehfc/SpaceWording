@@ -1,13 +1,13 @@
 //
 //  Monster.h
-//  ZombieMatrix
+//  SpaceWording
 //
 //  Created by Chieh-Fu Chen on 11/25/14.
 //
 //
 
-#ifndef __ZombieMatrix__Monster__
-#define __ZombieMatrix__Monster__
+#ifndef __SpaceWording__Monster__
+#define __SpaceWording__Monster__
 
 #include <stdio.h>
 #include "cocos2d.h"
@@ -89,4 +89,4 @@ class dragonMonster : public Monster
     cocos2d::RepeatForever *movingAnimation();
 };
 
-#endif /* defined(__ZombieMatrix__Monster__) */
+#endif /* defined(__SpaceWording__Monster__) */

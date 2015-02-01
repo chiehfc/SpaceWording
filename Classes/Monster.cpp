@@ -1,6 +1,6 @@
 //
 //  Monster.cpp
-//  ZombieMatrix
+//  SpaceWording
 //
 //  Created by Chieh-Fu Chen on 11/25/14.
 //

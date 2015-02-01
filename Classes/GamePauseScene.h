@@ -1,13 +1,13 @@
 //
 //  GamePauseScene.h
-//  ZombieMatrix
+//  SpaceWording
 //
 //  Created by Chieh-Fu Chen on 1/17/15.
 //
 //
 
-#ifndef __ZombieMatrix__GamePauseScene__
-#define __ZombieMatrix__GamePauseScene__
+#ifndef __SpaceWording__GamePauseScene__
+#define __SpaceWording__GamePauseScene__
 
 #include <stdio.h>
 #include "cocos2d.h"
@@ -50,4 +50,4 @@ private:
 };
 
 
-#endif /* defined(__ZombieMatrix__GamePauseScene__) */
+#endif /* defined(__SpaceWording__GamePauseScene__) */

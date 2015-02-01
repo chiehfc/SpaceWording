@@ -1,18 +1,16 @@
 //
 //  GraphicsScene.h
-//  ZombieMatrix
+//  SpaceWording
 //
 //  Created by Chieh-Fu Chen on 11/18/14.
 //
 //
 
-#ifndef __ZombieMatrix__GraphicsScene__
-#define __ZombieMatrix__GraphicsScene__
+#ifndef __SpaceWording__GraphicsScene__
+#define __SpaceWording__GraphicsScene__
 
 #include <stdio.h>
 #include "cocos2d.h"
-
-#endif /* defined(__ZombieMatrix__GraphicsScene__) */
 
 class GraphicsScene : public cocos2d::Layer
 {
@@ -21,4 +19,8 @@ public:
     virtual bool init();
     CREATE_FUNC(GraphicsScene);
 };
+
+#endif /* defined(__SpaceWording__GraphicsScene__) */
+
+
 

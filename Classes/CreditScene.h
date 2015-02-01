@@ -1,13 +1,13 @@
 //
 //  CreditScene.h
-//  ZombieMatrix
+//  SpaceWording
 //
 //  Created by Chieh-Fu Chen on 1/28/15.
 //
 //
 
-#ifndef __ZombieMatrix__CreditScene__
-#define __ZombieMatrix__CreditScene__
+#ifndef __SpaceWording__CreditScene__
+#define __SpaceWording__CreditScene__
 
 #include <stdio.h>
 #include "cocos2d.h"
@@ -24,4 +24,4 @@ private:
     cocos2d::Label *testLabel;
 };
 
-#endif /* defined(__ZombieMatrix__CreditScene__) */
+#endif /* defined(__SpaceWording__CreditScene__) */

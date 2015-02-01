@@ -1,13 +1,13 @@
 //
 //  GameLevelScene.h
-//  ZombieMatrix
+//  SpaceWording
 //
 //  Created by Chieh-Fu Chen on 1/17/15.
 //
 //
 
-#ifndef __ZombieMatrix__GameLevelScene__
-#define __ZombieMatrix__GameLevelScene__
+#ifndef __SpaceWording__GameLevelScene__
+#define __SpaceWording__GameLevelScene__
 
 #include <stdio.h>
 #include "cocos2d.h"
@@ -45,4 +45,4 @@ private:
 
 
 
-#endif /* defined(__ZombieMatrix__GameLevelScene__) */
+#endif /* defined(__SpaceWording__GameLevelScene__) */

@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "5087E73D17EB910900C73F5D"
-               BuildableName = "ZombieMatrix Mac.app"
-               BlueprintName = "ZombieMatrix Mac"
-               ReferencedContainer = "container:ZombieMatrix.xcodeproj">
+               BuildableName = "Space Wording Mac.app"
+               BlueprintName = "SpaceWording Mac"
+               ReferencedContainer = "container:SpaceWording.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "5087E73D17EB910900C73F5D"
-            BuildableName = "ZombieMatrix Mac.app"
-            BlueprintName = "ZombieMatrix Mac"
-            ReferencedContainer = "container:ZombieMatrix.xcodeproj">
+            BuildableName = "Space Wording Mac.app"
+            BlueprintName = "SpaceWording Mac"
+            ReferencedContainer = "container:SpaceWording.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -52,9 +52,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "5087E73D17EB910900C73F5D"
-            BuildableName = "ZombieMatrix Mac.app"
-            BlueprintName = "ZombieMatrix Mac"
-            ReferencedContainer = "container:ZombieMatrix.xcodeproj">
+            BuildableName = "Space Wording Mac.app"
+            BlueprintName = "SpaceWording Mac"
+            ReferencedContainer = "container:SpaceWording.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -70,9 +70,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "5087E73D17EB910900C73F5D"
-            BuildableName = "ZombieMatrix Mac.app"
-            BlueprintName = "ZombieMatrix Mac"
-            ReferencedContainer = "container:ZombieMatrix.xcodeproj">
+            BuildableName = "Space Wording Mac.app"
+            BlueprintName = "SpaceWording Mac"
+            ReferencedContainer = "container:SpaceWording.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

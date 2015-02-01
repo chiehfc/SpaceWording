@@ -1,6 +1,6 @@
 //
 //  CreditScene.cpp
-//  ZombieMatrix
+//  SpaceWording
 //
 //  Created by Chieh-Fu Chen on 1/28/15.
 //

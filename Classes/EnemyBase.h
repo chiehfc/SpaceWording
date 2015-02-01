@@ -1,13 +1,13 @@
 //
 //  EnemyBase.h
-//  ZombieMatrix
+//  SpaceWording
 //
 //  Created by Chieh-Fu Chen on 11/25/14.
 //
 //
 
-#ifndef __ZombieMatrix__EnemyBase__
-#define __ZombieMatrix__EnemyBase__
+#ifndef __SpaceWording__EnemyBase__
+#define __SpaceWording__EnemyBase__
 
 #include <stdio.h>
 #include "cocos2d.h"
@@ -20,4 +20,4 @@ public:
     
 };
 
-#endif /* defined(__ZombieMatrix__EnemyBase__) */
+#endif /* defined(__SpaceWording__EnemyBase__) */

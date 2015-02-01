@@ -1,6 +1,6 @@
 //
 //  GameMenuScene.cpp
-//  ZombieMatrix
+//  SpaceWording
 //
 //  Created by Chieh-Fu Chen on 11/24/14.
 //
