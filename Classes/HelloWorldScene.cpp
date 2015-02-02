@@ -5,6 +5,7 @@
 #include "GameLevelScene.h"
 #include "Monster.h"
 #include "Item.h"
+#include "Weapon.h"
 #include <time.h>
 
 USING_NS_CC;
@@ -82,6 +83,10 @@ bool HelloWorld::init()
     _shooting = 0;
     _reloadTime = 0;
     _bombReloadTime = 0;
+    
+    _weaponType = 0;
+
+    swipeBegin = false;
     wordBomb = 0;
     
     Size winSize = Director::getInstance()->getWinSize();
@@ -130,9 +135,9 @@ bool HelloWorld::init()
     // add a label shows "Hello World"
     // create and initialize a label
     
-    Sprite *player = Sprite::create("spaceShip.png", Rect(0, 0, 64, 64));
+    player = Sprite::create("spaceShip.png", Rect(0, 0, 64, 64));
     player->setPosition(Vec2(player->getContentSize().width/2, winSize.height/2));
-    this->addChild(player,0);
+    this->addChild(player,3);
     
     this->scoreLabel = Label::createWithBMFont("double_boxy.fnt", "Score: 0");
     scoreLabel->setScale(2.0f);
@@ -148,12 +153,19 @@ bool HelloWorld::init()
     textField->setPosition(Vec2(150, winSize.height/2));
     this->addChild(textField);
     
+    //// Set TextField touch listener
     auto listenerText = EventListenerTouchOneByOne::create();
-    
     listenerText->onTouchBegan = CC_CALLBACK_2(HelloWorld::textFieldOnTouchBegan,this);
-    
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listenerText, textField);
     textField->setDelegate(this);
+    
+    //// Set Changing weapon touch listener
+    auto swipeListener = EventListenerTouchOneByOne::create();
+    swipeListener->onTouchBegan = CC_CALLBACK_2(HelloWorld::onSwipeBegan, this);
+    swipeListener->onTouchEnded = CC_CALLBACK_2(HelloWorld::onSwipeEnded, this);
+    
+//    swipeListener->setSwallowTouches(true);
+    Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(swipeListener, player);
     
     // put "word" into vector.
     _words.push_back("monster");
@@ -166,6 +178,7 @@ bool HelloWorld::init()
     _words.push_back("pikachu");
     _words.push_back("turtle");
     
+    //// Set Shooting touch listener
     auto dispatcher = Director::getInstance()->getEventDispatcher();
     auto listener = EventListenerTouchOneByOne::create();
     listener->onTouchBegan = CC_CALLBACK_2(HelloWorld::onTouchBegan,this);
@@ -174,7 +187,7 @@ bool HelloWorld::init()
     listener->setSwallowTouches(true);
     dispatcher->addEventListenerWithSceneGraphPriority(listener,this);
     
-    this->schedule(schedule_selector(HelloWorld::gameLogic), 1.0);
+    this->schedule(schedule_selector(HelloWorld::gameLogic), 2.0);
 
     this->schedule(schedule_selector(HelloWorld::itemLogic), 10.0);
     
@@ -182,12 +195,56 @@ bool HelloWorld::init()
     return true;
 }
 
+bool HelloWorld::onSwipeBegan(cocos2d::Touch *touch, cocos2d::Event *event) {
+    if(this->player->getBoundingBox().containsPoint(touch->getLocation())) {
+        if(!swipeBegin) {
+            startSwipe = touch->getLocation();
+            swipeBegin = true;
+        }
+    }
+    return true;
+}
+
+void HelloWorld::onSwipeEnded(cocos2d::Touch *touch, cocos2d::Event *event) {
+    if(swipeBegin) {
+        endSwipe = touch->getLocation();
+        Point delta = startSwipe - endSwipe;
+        if(abs(delta.x) > abs(delta.y))
+        {
+            if(delta.x > 15)
+            {
+                CCLOG("SWIPE LEFT");
+            }
+            else if (delta.x < -15)
+            {
+                CCLOG("SWIPE RIGHT");
+            }
+        }
+        else
+        {
+            if(delta.y > 15)
+            {
+                CCLOG("SWIPE DOWN");
+                if(_weaponType<2)
+                    _weaponType++;
+            }
+            else if (delta.y < -15)
+            {
+                CCLOG("SWIPE UP");
+                if(_weaponType>0)
+                    _weaponType--;
+            }
+        }
+        swipeBegin = false;
+    }
+}
+
 bool HelloWorld::textFieldOnTouchBegan(cocos2d::Touch *touch, cocos2d::Event *event) {
     if(this->textField->getBoundingBox().containsPoint(touch->getLocation())) {
-        if (wordBomb==1) {
+//        if (wordBomb==1) {
             this->textField->attachWithIME();   // WORDING_MECHANICS
-            wordBomb=0;
-        }
+//            wordBomb=0;
+//        }
     }
     else {
         this->textField->detachWithIME();
@@ -204,28 +261,36 @@ bool HelloWorld::onTextFieldAttachWithIME(cocos2d::TextFieldTTF *sender) {
 bool HelloWorld::onTextFieldDetachWithIME(cocos2d::TextFieldTTF *sender) {
     cocos2d::Vector<cocos2d::Sprite *> targetsToDelete;
     this->setPosition(Vec2(0, 0));
-    
-    for(std::string word:_words)
-    {
-        if(strcmp(sender->getString().c_str(), word.c_str())==0) {
-            for(auto target:_targets) {
-                Monster *monster = (Monster*)target;
-                if(monster->word.compare(word)==0 && monster->locking==0) { // WORDING_MECHANICS
-                    targetsToDelete.pushBack(target);
-                }
-            }
-            for(Sprite* target: targetsToDelete) {
-                _targets.eraseObject(target);
-                Monster *monster = (Monster*)target;
-                monster->stopAction(monster->repeat);
-                auto seq = Sequence::createWithTwoActions(monster->destroyedEffect(), RemoveSelf::create());
-                monster->runAction(seq);
 
-                _projectilesDestroyed++;
-                CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("explosion_small.caf");
-            }
-        }
-    }
+    if(strcmp(sender->getString().c_str(), "fire")==0)
+        this->_weaponType = 0;
+    else if(strcmp(sender->getString().c_str(), "ice")==0)
+        this->_weaponType = 1;
+    else if(strcmp(sender->getString().c_str(), "thunder")==0)
+        this->_weaponType = 2;
+    else this->_weaponType = 0;
+    
+//    for(std::string word:_words)
+//    {
+//        if(strcmp(sender->getString().c_str(), word.c_str())==0) {
+//            for(auto target:_targets) {
+//                Monster *monster = (Monster*)target;
+//                if(monster->word.compare(word)==0 && monster->locking==0) { // WORDING_MECHANICS
+//                    targetsToDelete.pushBack(target);
+//                }
+//            }
+//            for(Sprite* target: targetsToDelete) {
+//                _targets.eraseObject(target);
+//                Monster *monster = (Monster*)target;
+//                monster->stopAction(monster->repeat);
+//                auto seq = Sequence::createWithTwoActions(monster->destroyedEffect(), RemoveSelf::create());
+//                monster->runAction(seq);
+//
+//                _projectilesDestroyed++;
+//                CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("explosion_small.caf");
+//            }
+//        }
+//    }
     
     char textmsg[256];
     sprintf(textmsg,"Score: %d", _projectilesDestroyed);
@@ -265,7 +330,15 @@ void HelloWorld::onTouchEnded(Touch *touch, Event *event) {
     Vec2 location = touch->getLocation();
     
     Size winSize = Director::getInstance()->getWinSize();
-    Sprite *projectile = Sprite::create("Projectile.png", Rect(0, 0, 20, 20));
+    Weapon *projectile;
+
+    if (_weaponType==0)
+        projectile = FireBall::fire();
+    else if (_weaponType==1)
+        projectile = IceBall::ice();
+    else if (_weaponType==2)
+        projectile = ThunderBall::thunder();
+        
     projectile->setPosition(Vec2(20, winSize.height/2));
     
     projectile->setTag(2);
@@ -313,6 +386,7 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 }
 
 void HelloWorld::gamePauseCallback(Ref* pSender) {
+    UserDefault::getInstance()->setIntegerForKey("MonsterNumber", _monsterNumber);
     Director::getInstance()->pushScene(GamePauseScene::createScene());
 }
 
@@ -406,29 +480,29 @@ void HelloWorld::spriteMoveFinished(Node *sender) {
         Monster *target = (Monster*)sprite;
         if(target->destroying!=1)
         {
-            auto gameOverScene = GameOverScene::create();
-            char text[256];
-            sprintf(text, "You Lose!!!\nGame Time: %.2f\nGame Level: %d", _elapsedTime, _monsterNumber);
-            gameOverScene->getLayer()->getLabel()->setString(text);
-            
-            float bestScore = UserDefault::getInstance()->getFloatForKey("BestScore");
-
-            if(bestScore<_elapsedTime) {
-                UserDefault::getInstance()->setFloatForKey("BestScore", _elapsedTime);
-                sprintf(text, "Best Score: %.2f", _elapsedTime);
-            } else
-                sprintf(text, "Best Score: %.2f", bestScore);
-            
-            gameOverScene->getLayer()->getBestScoreLabel()->setString(text);
-            
-            CocosDenshion::SimpleAudioEngine::getInstance()->stopBackgroundMusic();
-            this->textField->detachWithIME();
-            Director::getInstance()->replaceScene(gameOverScene);
-            CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("explosion_large.caf");
+//            auto gameOverScene = GameOverScene::create();
+//            char text[256];
+//            sprintf(text, "You Lose!!!\nGame Time: %.2f\nGame Level: %d", _elapsedTime, _monsterNumber);
+//            gameOverScene->getLayer()->getLabel()->setString(text);
+//            
+//            float bestScore = UserDefault::getInstance()->getFloatForKey("BestScore");
+//
+//            if(bestScore<_elapsedTime) {
+//                UserDefault::getInstance()->setFloatForKey("BestScore", _elapsedTime);
+//                sprintf(text, "Best Score: %.2f", _elapsedTime);
+//            } else
+//                sprintf(text, "Best Score: %.2f", bestScore);
+//            
+//            gameOverScene->getLayer()->getBestScoreLabel()->setString(text);
+//            
+//            CocosDenshion::SimpleAudioEngine::getInstance()->stopBackgroundMusic();
+//            this->textField->detachWithIME();
+//            Director::getInstance()->replaceScene(gameOverScene);
+//            CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("explosion_large.caf");
         }
     }
     else if(sprite->getTag()==2) {
-        _projectiles.eraseObject(sprite);
+        _projectiles.eraseObject((Weapon *)sprite);
     }
     else if(sprite->getTag()==3) {
         _items.eraseObject(sprite);
@@ -447,19 +521,25 @@ void HelloWorld::update(float dt) {
     } else if(_shooting > 0 && _reloadTime < 0.5) {
         _reloadTime+=dt;
     }
-    
-    if(wordBomb==0 && _bombReloadTime<5.0) {
-        _bombReloadTime+=dt;
-    } else if(wordBomb==0 && _bombReloadTime>5.0) {
-        wordBomb=1;
+    _bombReloadTime+=dt;
+    if(_bombReloadTime>10)
+    {
         _bombReloadTime=0;
+        CCLOG("%d", _monsterNumber);
+        _monsterNumber++;
     }
+//    if(wordBomb==0 && _bombReloadTime<5.0) {
+//        _bombReloadTime+=dt;
+//    } else if(wordBomb==0 && _bombReloadTime>5.0) {
+//        wordBomb=1;
+//        _bombReloadTime=0;
+//    }
     
-    if(wordBomb==1)
-        this->textField->setString("Word Bomb is Ready!");
+//    if(wordBomb==1)
+//        this->textField->setString("Word Bomb is Ready!");
     
     bool monsterHit = false;
-    cocos2d::Vector<cocos2d::Sprite *> projectilesToDelete;
+    cocos2d::Vector<Weapon *> projectilesToDelete;
     cocos2d::Vector<cocos2d::Sprite *> targetsToDelete;
     cocos2d::Vector<cocos2d::Sprite *> itemsToDelete;
     
@@ -482,14 +562,16 @@ void HelloWorld::update(float dt) {
                 //// SHOOTING MECHANICS
                 monsterHit = true;
                 Monster *monster = (Monster*)target;
-
-                monster->curHp--;
-                if(monster->curHp<=0) {
-                    targetsToDelete.pushBack(target);
+                if(monster->monsterType==projectile->weaponType)
+                {
+                    monster->curHp--;
+                    if(monster->curHp<=0) {
+                        targetsToDelete.pushBack(target);
+                    }
+                    projectilesToDelete.pushBack(projectile);
+                    CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("explosion_small.caf");
+                    break;
                 }
-                projectilesToDelete.pushBack(projectile);
-                CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("explosion_small.caf");
-                break;
             }
         }
         //// Item Part

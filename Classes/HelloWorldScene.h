@@ -2,6 +2,7 @@
 #define __HELLOWORLD_SCENE_H__
 
 #include "cocos2d.h"
+#include "Weapon.h"
 
 class BackgroundLayer : public cocos2d::Layer
 {
@@ -35,6 +36,10 @@ public:
     bool textFieldOnTouchBegan(cocos2d::Touch *touch, cocos2d::Event *event);
     bool onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *event);
     void onTouchEnded(cocos2d::Touch *touch, cocos2d::Event *event);
+    
+    bool onSwipeBegan(cocos2d::Touch *touch, cocos2d::Event *event);
+    void onSwipeEnded(cocos2d::Touch *touch, cocos2d::Event *event);
+    
     bool onTextFieldAttachWithIME(cocos2d::TextFieldTTF *sender);
     bool onTextFieldDetachWithIME(cocos2d::TextFieldTTF *sender);
     void update(float dt);
@@ -46,7 +51,7 @@ public:
 protected:
     cocos2d::Vector<cocos2d::Sprite *> _targets;
     cocos2d::Vector<cocos2d::Sprite *> _items;
-    cocos2d::Vector<cocos2d::Sprite *> _projectiles;
+    cocos2d::Vector<Weapon *> _projectiles;
     std::vector<std::string> _words;
     int _monsterNumber;
     int _projectilesDestroyed;
@@ -59,7 +64,13 @@ protected:
     float _reloadTime;
     float _bombReloadTime;
     int wordBomb;
+    //// Fire = 0, Ice = 1, Thunder = 2.
+    int _weaponType = 0;
     
+    cocos2d::Point startSwipe;
+    cocos2d::Point endSwipe;
+    bool swipeBegin;
+    cocos2d::Sprite *player;
     BackgroundLayer* _layer;
 };
 
