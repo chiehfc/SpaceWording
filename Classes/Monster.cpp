@@ -20,6 +20,7 @@ WeakAndFastMonster* WeakAndFastMonster::monster(void)
         monster->maxMoveDuration =12;
         monster->destroying = 0;
         monster->locking = 0;
+        monster->monsterType = 0;
         monster->word = "ninja";
         monster->autorelease();
     }
@@ -95,119 +96,119 @@ RepeatForever* IvysaurMonster::movingAnimation() {
     return repeat;
 }
 
-RepeatForever* CharizardMonster::movingAnimation() {
-    int numFrame =2;
-    cocos2d::Vector<cocos2d::SpriteFrame *> frames;
-    SpriteFrameCache* frameCache = SpriteFrameCache::getInstance();
-    char file[100] = {0};
-    
-    for (int i = 0; i < numFrame; i++) {
-        sprintf(file, "spaceMonster1_%d.png", i+1);
-        SpriteFrame *frame = frameCache->getSpriteFrameByName(file);
-        frames.pushBack(frame);
-    }
-    
-    Animation *animation = Animation::createWithSpriteFrames(frames, 0.3);
-    Animate *animate = Animate::create(animation);
-    
-    repeat = RepeatForever::create(animate);
-    return repeat;
-}
-
-RepeatForever* dragonMonster::movingAnimation() {
-    int numFrame =2;
-    cocos2d::Vector<cocos2d::SpriteFrame *> frames;
-    SpriteFrameCache* frameCache = SpriteFrameCache::getInstance();
-    char file[100] = {0};
-    
-    for (int i = 0; i < numFrame; i++) {
-        sprintf(file, "spaceMonster1_%d.png", i+1);
-        SpriteFrame *frame = frameCache->getSpriteFrameByName(file);
-        frames.pushBack(frame);
-    }
-    
-    Animation *animation = Animation::createWithSpriteFrames(frames, 0.3);
-    Animate *animate = Animate::create(animation);
-    
-    repeat = RepeatForever::create(animate);
-    return repeat;
-}
-
-RepeatForever* gengarMonster::movingAnimation() {
-    int numFrame =2;
-    cocos2d::Vector<cocos2d::SpriteFrame *> frames;
-    SpriteFrameCache* frameCache = SpriteFrameCache::getInstance();
-    char file[100] = {0};
-    
-    for (int i = 0; i < numFrame; i++) {
-        sprintf(file, "spaceMonster1_%d.png", i+1);
-        SpriteFrame *frame = frameCache->getSpriteFrameByName(file);
-        frames.pushBack(frame);
-    }
-    
-    Animation *animation = Animation::createWithSpriteFrames(frames, 0.3);
-    Animate *animate = Animate::create(animation);
-    
-    repeat = RepeatForever::create(animate);
-    return repeat;
-}
-
-RepeatForever* pikachuMonster::movingAnimation() {
-    int numFrame =2;
-    cocos2d::Vector<cocos2d::SpriteFrame *> frames;
-    SpriteFrameCache* frameCache = SpriteFrameCache::getInstance();
-    char file[100] = {0};
-    
-    for (int i = 0; i < numFrame; i++) {
-        sprintf(file, "spaceMonster1_%d.png", i+1);
-        SpriteFrame *frame = frameCache->getSpriteFrameByName(file);
-        frames.pushBack(frame);
-    }
-    
-    Animation *animation = Animation::createWithSpriteFrames(frames, 0.3);
-    Animate *animate = Animate::create(animation);
-    
-    repeat = RepeatForever::create(animate);
-    return repeat;
-}
-
-RepeatForever* flyingDragonMonster::movingAnimation() {
-    int numFrame =2;
-    cocos2d::Vector<cocos2d::SpriteFrame *> frames;
-    SpriteFrameCache* frameCache = SpriteFrameCache::getInstance();
-    char file[100] = {0};
-    
-    for (int i = 0; i < numFrame; i++) {
-        sprintf(file, "spaceMonster1_%d.png", i+1);
-        SpriteFrame *frame = frameCache->getSpriteFrameByName(file);
-        frames.pushBack(frame);
-    }
-    
-    Animation *animation = Animation::createWithSpriteFrames(frames, 0.3);
-    Animate *animate = Animate::create(animation);
-    
-    repeat = RepeatForever::create(animate);
-    return repeat;
-}
-
-RepeatForever* turtleMonster::movingAnimation() {
-    int numFrame =2;
-    cocos2d::Vector<cocos2d::SpriteFrame *> frames;
-    SpriteFrameCache* frameCache = SpriteFrameCache::getInstance();
-    char file[100] = {0};
-    
-    for (int i = 0; i < numFrame; i++) {
-        sprintf(file, "spaceMonster1_%d.png", i+1);
-        SpriteFrame *frame = frameCache->getSpriteFrameByName(file);
-        frames.pushBack(frame);
-    }
-    
-    Animation *animation = Animation::createWithSpriteFrames(frames, 0.3);
-    Animate *animate = Animate::create(animation);
-    
-    repeat = RepeatForever::create(animate);
-    return repeat;
-}
+//RepeatForever* CharizardMonster::movingAnimation() {
+//    int numFrame =2;
+//    cocos2d::Vector<cocos2d::SpriteFrame *> frames;
+//    SpriteFrameCache* frameCache = SpriteFrameCache::getInstance();
+//    char file[100] = {0};
+//    
+//    for (int i = 0; i < numFrame; i++) {
+//        sprintf(file, "spaceMonster1_%d.png", i+1);
+//        SpriteFrame *frame = frameCache->getSpriteFrameByName(file);
+//        frames.pushBack(frame);
+//    }
+//    
+//    Animation *animation = Animation::createWithSpriteFrames(frames, 0.3);
+//    Animate *animate = Animate::create(animation);
+//    
+//    repeat = RepeatForever::create(animate);
+//    return repeat;
+//}
+//
+//RepeatForever* dragonMonster::movingAnimation() {
+//    int numFrame =2;
+//    cocos2d::Vector<cocos2d::SpriteFrame *> frames;
+//    SpriteFrameCache* frameCache = SpriteFrameCache::getInstance();
+//    char file[100] = {0};
+//    
+//    for (int i = 0; i < numFrame; i++) {
+//        sprintf(file, "spaceMonster1_%d.png", i+1);
+//        SpriteFrame *frame = frameCache->getSpriteFrameByName(file);
+//        frames.pushBack(frame);
+//    }
+//    
+//    Animation *animation = Animation::createWithSpriteFrames(frames, 0.3);
+//    Animate *animate = Animate::create(animation);
+//    
+//    repeat = RepeatForever::create(animate);
+//    return repeat;
+//}
+//
+//RepeatForever* gengarMonster::movingAnimation() {
+//    int numFrame =2;
+//    cocos2d::Vector<cocos2d::SpriteFrame *> frames;
+//    SpriteFrameCache* frameCache = SpriteFrameCache::getInstance();
+//    char file[100] = {0};
+//    
+//    for (int i = 0; i < numFrame; i++) {
+//        sprintf(file, "spaceMonster1_%d.png", i+1);
+//        SpriteFrame *frame = frameCache->getSpriteFrameByName(file);
+//        frames.pushBack(frame);
+//    }
+//    
+//    Animation *animation = Animation::createWithSpriteFrames(frames, 0.3);
+//    Animate *animate = Animate::create(animation);
+//    
+//    repeat = RepeatForever::create(animate);
+//    return repeat;
+//}
+//
+//RepeatForever* pikachuMonster::movingAnimation() {
+//    int numFrame =2;
+//    cocos2d::Vector<cocos2d::SpriteFrame *> frames;
+//    SpriteFrameCache* frameCache = SpriteFrameCache::getInstance();
+//    char file[100] = {0};
+//    
+//    for (int i = 0; i < numFrame; i++) {
+//        sprintf(file, "spaceMonster1_%d.png", i+1);
+//        SpriteFrame *frame = frameCache->getSpriteFrameByName(file);
+//        frames.pushBack(frame);
+//    }
+//    
+//    Animation *animation = Animation::createWithSpriteFrames(frames, 0.3);
+//    Animate *animate = Animate::create(animation);
+//    
+//    repeat = RepeatForever::create(animate);
+//    return repeat;
+//}
+//
+//RepeatForever* flyingDragonMonster::movingAnimation() {
+//    int numFrame =2;
+//    cocos2d::Vector<cocos2d::SpriteFrame *> frames;
+//    SpriteFrameCache* frameCache = SpriteFrameCache::getInstance();
+//    char file[100] = {0};
+//    
+//    for (int i = 0; i < numFrame; i++) {
+//        sprintf(file, "spaceMonster1_%d.png", i+1);
+//        SpriteFrame *frame = frameCache->getSpriteFrameByName(file);
+//        frames.pushBack(frame);
+//    }
+//    
+//    Animation *animation = Animation::createWithSpriteFrames(frames, 0.3);
+//    Animate *animate = Animate::create(animation);
+//    
+//    repeat = RepeatForever::create(animate);
+//    return repeat;
+//}
+//
+//RepeatForever* turtleMonster::movingAnimation() {
+//    int numFrame =2;
+//    cocos2d::Vector<cocos2d::SpriteFrame *> frames;
+//    SpriteFrameCache* frameCache = SpriteFrameCache::getInstance();
+//    char file[100] = {0};
+//    
+//    for (int i = 0; i < numFrame; i++) {
+//        sprintf(file, "spaceMonster1_%d.png", i+1);
+//        SpriteFrame *frame = frameCache->getSpriteFrameByName(file);
+//        frames.pushBack(frame);
+//    }
+//    
+//    Animation *animation = Animation::createWithSpriteFrames(frames, 0.3);
+//    Animate *animate = Animate::create(animation);
+//    
+//    repeat = RepeatForever::create(animate);
+//    return repeat;
+//}
 
 
 FiniteTimeAction* Monster::destroyedEffect(){
@@ -242,6 +243,7 @@ StrongAndSlowMonster* StrongAndSlowMonster::monster(void)
         monster->maxMoveDuration = 12;
         monster->destroying = 0;
         monster->locking = 0;
+        monster->monsterType = 1;
         monster->word = "monster";
         monster->autorelease();
     }
@@ -258,10 +260,11 @@ IvysaurMonster* IvysaurMonster::monster(void)
     if (monster && monster->initWithSpriteFrameName("spaceMonster3_1.png"))
     {
         monster->curHp = 1;
-        monster->minMoveDuration = 3;
-        monster->maxMoveDuration = 5;
+        monster->minMoveDuration = 4;
+        monster->maxMoveDuration = 8;
         monster->destroying = 0;
         monster->locking = 0;
+        monster->monsterType = 2;
         monster->word = "ivysaur";
         monster->autorelease();
     }
