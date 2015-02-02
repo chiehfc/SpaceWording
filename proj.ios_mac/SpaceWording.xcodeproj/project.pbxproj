@@ -72,7 +72,6 @@
 		42AE2BAA1A1C18AD007CB98C /* decepticon.png in Resources */ = {isa = PBXBuildFile; fileRef = 42AE2BA91A1C18AD007CB98C /* decepticon.png */; };
 		42B1192A1A7CB3ED00FCBA09 /* Item.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42B119281A7CB3ED00FCBA09 /* Item.cpp */; };
 		42B1192C1A7CB64F00FCBA09 /* healthPacks.png in Resources */ = {isa = PBXBuildFile; fileRef = 42B1192B1A7CB64F00FCBA09 /* healthPacks.png */; };
-		42B119301A7E001B00FCBA09 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 42B1192F1A7E001B00FCBA09 /* icon.png */; };
 		42B119381A7E07B000FCBA09 /* Icon-40.png in Resources */ = {isa = PBXBuildFile; fileRef = 42B119311A7E07B000FCBA09 /* Icon-40.png */; };
 		42B119391A7E07B000FCBA09 /* Icon-40@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 42B119321A7E07B000FCBA09 /* Icon-40@2x.png */; };
 		42B1193A1A7E07B000FCBA09 /* Icon-40@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 42B119331A7E07B000FCBA09 /* Icon-40@3x.png */; };
@@ -259,7 +258,6 @@
 		42B119281A7CB3ED00FCBA09 /* Item.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Item.cpp; sourceTree = "<group>"; };
 		42B119291A7CB3ED00FCBA09 /* Item.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Item.h; sourceTree = "<group>"; };
 		42B1192B1A7CB64F00FCBA09 /* healthPacks.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = healthPacks.png; sourceTree = "<group>"; };
-		42B1192F1A7E001B00FCBA09 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
 		42B119311A7E07B000FCBA09 /* Icon-40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-40.png"; sourceTree = "<group>"; };
 		42B119321A7E07B000FCBA09 /* Icon-40@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-40@2x.png"; sourceTree = "<group>"; };
 		42B119331A7E07B000FCBA09 /* Icon-40@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-40@3x.png"; sourceTree = "<group>"; };
@@ -468,7 +466,6 @@
 				4242D2A51A8010E50028E1CD /* thunderBall.png */,
 				4242D29C1A7EF9A50028E1CD /* small_fireball.png */,
 				42B1192B1A7CB64F00FCBA09 /* healthPacks.png */,
-				42B1192F1A7E001B00FCBA09 /* icon.png */,
 				420BF9CE1A7B7301003E3709 /* rightArrow.png */,
 				420BF9CF1A7B7301003E3709 /* leftArrow_pressed.png */,
 				420BF9D01A7B7301003E3709 /* leftArrow.png */,
@@ -785,7 +782,6 @@
 				420BF9BF1A79E3ED003E3709 /* spaceMonster3.png in Resources */,
 				42B1193A1A7E07B000FCBA09 /* Icon-40@3x.png in Resources */,
 				42DB18E51A78D0620041D1C6 /* space_monster_white.png in Resources */,
-				42B119301A7E001B00FCBA09 /* icon.png in Resources */,
 				42B1194C1A7E16D300FCBA09 /* Default-Portrait@2x.png in Resources */,
 				4242D2941A7E248B0028E1CD /* Default.png in Resources */,
 				4280FE421A77485000DE67BC /* start_button_new.png in Resources */,
