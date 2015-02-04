@@ -114,13 +114,14 @@ bool GameLevelLayer::init() {
 void GameLevelLayer::gameLevelCallback(Ref* pSender)
 {
     UserDefault::getInstance()->setIntegerForKey("MonsterNumber", _monsterNumber);
+    UserDefault::getInstance()->setIntegerForKey("GameLevel", _monsterNumber);
     Director::getInstance()->replaceScene(HelloWorld::createScene());
 }
 
 void GameLevelLayer::addMonsterNumberCallback(Ref* pSender)
 {
     if(_monsterNumber<=MAX_MONSTER-1)
-    _monsterNumber++;
+        _monsterNumber++;
     char text[256];
     sprintf(text,"Level: %d", _monsterNumber);
     this->_label->setString(text);
