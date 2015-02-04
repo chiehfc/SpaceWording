@@ -58,6 +58,7 @@ protected:
     cocos2d::Label *scoreLabel;
     cocos2d::Label *wordLabel;
     cocos2d::Label *timeLabel;
+    cocos2d::Label *weaponLabel;
     float _elapsedTime;
     cocos2d::TextFieldTTF *textField;
     int _shooting;
@@ -65,12 +66,17 @@ protected:
     float _bombReloadTime;
     int wordBomb;
     //// Fire = 0, Ice = 1, Thunder = 2.
-    int _weaponType = 0;
+    int _weaponType;
     
     cocos2d::Point startSwipe;
     cocos2d::Point endSwipe;
     bool swipeBegin;
     cocos2d::Sprite *player;
+    Weapon *projectile;
+    
+    int _gameLevel;
+    
+    cocos2d::Sprite *image;
     BackgroundLayer* _layer;
 };
 

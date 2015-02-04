@@ -11,6 +11,7 @@
 
 #include <stdio.h>
 #include "cocos2d.h"
+#include "Monster.h"
 
 class GamePauseLayer : public cocos2d::LayerColor {
     
@@ -23,7 +24,7 @@ public:
     void gameResumeCallback(cocos2d::Ref* pSender);
     void minusMonsterNumberCallback(cocos2d::Ref* pSender);
     void addMonsterNumberCallback(cocos2d::Ref* pSender);
-    
+    //std::vector<Monster *> & getPointer() {return _monsterType;}
     
     cocos2d::Label* getLabel() {return _label;}
 private:
@@ -33,6 +34,10 @@ private:
     cocos2d::Sprite *_monster;
     int _monsterNumber;
     int _selectedNumber;
+    Monster* monster1;
+    Monster* monster2;
+    Monster* monster3;
+    std::vector<Monster *> _monsterType;
 };
 
 class GamePauseScene:public cocos2d::Layer {

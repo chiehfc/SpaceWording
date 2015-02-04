@@ -9,6 +9,7 @@
 #include "GamePauseScene.h"
 #include "GameMenuScene.h"
 #include "HelloWorldScene.h"
+#include "Monster.h"
 
 USING_NS_CC;
 
@@ -56,27 +57,40 @@ bool GamePauseLayer::init() {
         _monsterNumber = UserDefault::getInstance()->getIntegerForKey("MonsterNumber");
         _selectedNumber = 1;
         
-        _monsterFileName["ninja"] = "spaceMonster1_1.png";
-        _monsterFileName["monster"] = "spaceMonster2_1.png";
-        _monsterFileName["ivysaur"] = "spaceMonster3_1.png";
-        _monsterFileName["charizard"] = "6-mega-x.png";
-        _monsterFileName["pikachu"] = "pikachu.png";
-        _monsterFileName["flyingdragon"] = "flyingDragon.png";
-        _monsterFileName["dragon"] = "dragon.png";
-        _monsterFileName["gengar"] = "gengar.png";
-        _monsterFileName["turtle"] = "turtle.png";
+        monster1 = WeakAndFastMonster::monster();
+        this->addChild(monster1);
+
+        monster2 = StrongAndSlowMonster::monster();
+        this->addChild(monster2);
         
-        _monsterWords.push_back("ninja");
-        _monsterWords.push_back("monster");
-        _monsterWords.push_back("ivysaur");
-        _monsterWords.push_back("charizard");
-        _monsterWords.push_back("pikachu");
-        _monsterWords.push_back("flyingdragon");
-        _monsterWords.push_back("dragon");
-        _monsterWords.push_back("gengar");
-        _monsterWords.push_back("turtle");
+        monster3 = IvysaurMonster::monster();
+        this->addChild(monster3);
         
-        this->_label = Label::createWithBMFont("double_boxy.fnt", "ninja");
+        _monsterType.push_back(monster1);
+        _monsterType.push_back(monster2);
+        _monsterType.push_back(monster3);
+
+        _monsterFileName["bigeye"] = "spaceMonster1_1.png";
+        _monsterFileName["pirate"] = "spaceMonster2_1.png";
+        _monsterFileName["swallow"] = "spaceMonster3_1.png";
+//        _monsterFileName["charizard"] = "6-mega-x.png";
+//        _monsterFileName["pikachu"] = "pikachu.png";
+//        _monsterFileName["flyingdragon"] = "flyingDragon.png";
+//        _monsterFileName["dragon"] = "dragon.png";
+//        _monsterFileName["gengar"] = "gengar.png";
+//        _monsterFileName["turtle"] = "turtle.png";
+
+//        _monsterWords.push_back("bigeye");
+//        _monsterWords.push_back("pirate");
+//        _monsterWords.push_back("swallow");
+//        _monsterWords.push_back("charizard");
+//        _monsterWords.push_back("pikachu");
+//        _monsterWords.push_back("flyingdragon");
+//        _monsterWords.push_back("dragon");
+//        _monsterWords.push_back("gengar");
+//        _monsterWords.push_back("turtle");
+        
+        this->_label = Label::createWithBMFont("double_boxy.fnt", "bigeye");
         _label->retain();
         _label->setScale(2.0f);
         _label->setPosition(Point(winSize.width/2,winSize.height*0.6));
@@ -130,10 +144,12 @@ void GamePauseLayer::minusMonsterNumberCallback(cocos2d::Ref *pSender)
 {
     if(_selectedNumber>1 && _selectedNumber<=_monsterNumber) {
         _selectedNumber--;
-        _label->setString(_monsterWords.at(_selectedNumber-1).c_str());
+        _label->setString(_monsterWords[_selectedNumber-1].c_str());
+
         SpriteFrameCache* frameCache = SpriteFrameCache::getInstance();
         SpriteFrame *frame = frameCache
-        ->getSpriteFrameByName(_monsterFileName.at(_monsterWords.at(_selectedNumber-1).c_str()));
+//        ->getSpriteFrameByName(_monsterFileName[_monsterWords[_selectedNumber-1].c_str()].c_str());
+        ->getSpriteFrameByName(_monsterFileName[_monsterType.at(_selectedNumber-1)->word.c_str()].c_str());
         
         _monster->setDisplayFrame(frame);
     }
@@ -143,12 +159,13 @@ void GamePauseLayer::addMonsterNumberCallback(cocos2d::Ref *pSender)
 {
     if(_selectedNumber>=1 && _selectedNumber<_monsterNumber) {
         _selectedNumber++;
-        _label->setString(_monsterWords.at(_selectedNumber-1).c_str());
+        _label->setString(_monsterWords[_selectedNumber-1].c_str());
         
         SpriteFrameCache* frameCache = SpriteFrameCache::getInstance();
         SpriteFrame *frame = frameCache
-        ->getSpriteFrameByName(_monsterFileName.at(_monsterWords.at(_selectedNumber-1).c_str()));
-        
+//        ->getSpriteFrameByName(_monsterFileName[_monsterWords[_selectedNumber-1].c_str()].c_str());
+        ->getSpriteFrameByName(_monsterFileName[_monsterType.at(_selectedNumber-1)->word.c_str()].c_str());
+
         _monster->setDisplayFrame(frame);
     }
 }
