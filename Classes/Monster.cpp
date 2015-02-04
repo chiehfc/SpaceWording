@@ -21,7 +21,7 @@ WeakAndFastMonster* WeakAndFastMonster::monster(void)
         monster->destroying = 0;
         monster->locking = 0;
         monster->monsterType = 0;
-        monster->word = "ninja";
+        monster->word = "bigeye";
         monster->autorelease();
     }
     else
@@ -238,13 +238,13 @@ StrongAndSlowMonster* StrongAndSlowMonster::monster(void)
     StrongAndSlowMonster * monster = new StrongAndSlowMonster();
     if (monster && monster->initWithSpriteFrameName("spaceMonster2_1.png"))
     {
-        monster->curHp = 3;
-        monster->minMoveDuration = 6;
-        monster->maxMoveDuration = 12;
+        monster->curHp = 1;
+        monster->minMoveDuration = 7;
+        monster->maxMoveDuration = 14;
         monster->destroying = 0;
         monster->locking = 0;
         monster->monsterType = 1;
-        monster->word = "monster";
+        monster->word = "pirate";
         monster->autorelease();
     }
     else
@@ -260,12 +260,12 @@ IvysaurMonster* IvysaurMonster::monster(void)
     if (monster && monster->initWithSpriteFrameName("spaceMonster3_1.png"))
     {
         monster->curHp = 1;
-        monster->minMoveDuration = 4;
-        monster->maxMoveDuration = 8;
+        monster->minMoveDuration = 5;
+        monster->maxMoveDuration = 10;
         monster->destroying = 0;
         monster->locking = 0;
         monster->monsterType = 2;
-        monster->word = "ivysaur";
+        monster->word = "swallow";
         monster->autorelease();
     }
     else
