@@ -9,7 +9,7 @@
 #include <time.h>
 
 USING_NS_CC;
-#define BULLET_LIMIT 5
+#define BULLET_LIMIT 10
 
 Scene* HelloWorld::createScene()
 {
@@ -76,7 +76,7 @@ bool HelloWorld::init()
 //    layerr->setZOrder(2);
     this->addChild(layerr);
     
-    CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic("Background.mp3", true);
+    CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic("bgm_action_4.mp3", true);
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     _elapsedTime = 0;
@@ -89,6 +89,8 @@ bool HelloWorld::init()
 
     swipeBegin = false;
     wordBomb = 0;
+    item = 0;
+    _swipeOrTouch = 0;
     
     int gameLevel = UserDefault::getInstance()->getIntegerForKey("GameLevel");
     float gameSecond = (float)1/(float)gameLevel;
@@ -181,9 +183,9 @@ bool HelloWorld::init()
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(swipeListener, player);
     
     // put "word" into vector.
-    _words.push_back("monster");
-    _words.push_back("ninja");
-    _words.push_back("ivysaur");
+    _words.push_back("bigeye");
+    _words.push_back("pirate");
+    _words.push_back("swallow");
     _words.push_back("charizard");
     _words.push_back("dragon");
     _words.push_back("flyingdragon");
@@ -246,6 +248,7 @@ void HelloWorld::onSwipeEnded(cocos2d::Touch *touch, cocos2d::Event *event) {
                 CCLOG("SWIPE DOWN");
                 if(_weaponType<2) {
                     _weaponType++;
+                    _swipeOrTouch = 0;
                 }
             }
             else if (delta.y < -15)
@@ -253,17 +256,19 @@ void HelloWorld::onSwipeEnded(cocos2d::Touch *touch, cocos2d::Event *event) {
                 CCLOG("SWIPE UP");
                 if(_weaponType>0) {
                     _weaponType--;
+                    _swipeOrTouch = 0;
                 }
             }
         }
         swipeBegin = false;
+        CCLOG("SWIPE END");
     }
 }
 
 bool HelloWorld::textFieldOnTouchBegan(cocos2d::Touch *touch, cocos2d::Event *event) {
     if(this->textField->getBoundingBox().containsPoint(touch->getLocation())) {
 //        if (wordBomb==1) {
-//            this->textField->attachWithIME();   // WORDING_MECHANICS
+            this->textField->attachWithIME();   // WORDING_MECHANICS
 //            wordBomb=0;
 //        }
     }
@@ -291,27 +296,30 @@ bool HelloWorld::onTextFieldDetachWithIME(cocos2d::TextFieldTTF *sender) {
         this->_weaponType = 2;
     else this->_weaponType = 0;
     
-//    for(std::string word:_words)
-//    {
-//        if(strcmp(sender->getString().c_str(), word.c_str())==0) {
-//            for(auto target:_targets) {
-//                Monster *monster = (Monster*)target;
-//                if(monster->word.compare(word)==0 && monster->locking==0) { // WORDING_MECHANICS
-//                    targetsToDelete.pushBack(target);
-//                }
-//            }
-//            for(Sprite* target: targetsToDelete) {
-//                _targets.eraseObject(target);
-//                Monster *monster = (Monster*)target;
-//                monster->stopAction(monster->repeat);
-//                auto seq = Sequence::createWithTwoActions(monster->destroyedEffect(), RemoveSelf::create());
-//                monster->runAction(seq);
-//
-//                _projectilesDestroyed++;
-//                CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("explosion_small.caf");
-//            }
-//        }
-//    }
+    if(strcmp(sender->getString().c_str(), "scroll")==0)
+        activateSpells();
+    
+    for(std::string word:_words)
+    {
+        if(strcmp(sender->getString().c_str(), word.c_str())==0) {
+            for(auto target:_targets) {
+                Monster *monster = (Monster*)target;
+                if(monster->word.compare(word)==0 && monster->locking==0) { // WORDING_MECHANICS
+                    targetsToDelete.pushBack(target);
+                }
+            }
+            for(Sprite* target: targetsToDelete) {
+                _targets.eraseObject(target);
+                Monster *monster = (Monster*)target;
+                monster->stopAction(monster->repeat);
+                auto seq = Sequence::createWithTwoActions(monster->destroyedEffect(), RemoveSelf::create());
+                monster->runAction(seq);
+
+                _projectilesDestroyed++;
+                CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("explosion_small.caf");
+            }
+        }
+    }
     
     char textmsg[256];
     sprintf(textmsg,"Score: %d", _projectilesDestroyed);
@@ -343,16 +351,45 @@ bool HelloWorld::onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *event) {
     
 }
 
+void HelloWorld::activateSpells() {
+    cocos2d::Vector<cocos2d::Sprite *> targetsToAffect;
+
+    
+    for(auto target : _targets) {
+        targetsToAffect.pushBack(target);
+    }
+    
+    int minDuration = 0;
+    int maxDuration = 0;
+    int rangeDuration = 0;
+    int actualDuration = 0;
+    
+    for(auto target : targetsToAffect) {
+        target->stopAllActions();
+        Monster *monster = (Monster*)target;
+        minDuration = monster->minMoveDuration+5;
+        maxDuration = monster->maxMoveDuration+5;
+        rangeDuration = maxDuration - minDuration;
+        actualDuration = (rand()%rangeDuration)+ minDuration;
+
+        FiniteTimeAction *actionMove = MoveTo::create((float)actualDuration, Vec2(0-target->getContentSize().width/2, monster->getPositionY()));
+        
+        FiniteTimeAction *actionMoveDone = CallFuncN::create(std::bind(&HelloWorld::spriteMoveFinished, this, std::placeholders::_1));
+        
+        target->runAction(Sequence::create(actionMove, actionMoveDone, NULL));
+    }
+}
+
 void HelloWorld::onTouchEnded(Touch *touch, Event *event) {
     
-    if(_shooting != BULLET_LIMIT) {
+    if(_shooting != BULLET_LIMIT && _swipeOrTouch!=0) {
     _shooting++;
-    CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("laser_ship.caf");
+    CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("laser_ship.caf", false, 1.0f, 0.0f, 0.5f);
     Vec2 location = touch->getLocation();
     
     Size winSize = Director::getInstance()->getWinSize();
 
-
+    CCLOG("TOUCH END");
     if (_weaponType==0)
         projectile = FireBall::fire();
     else if (_weaponType==1)
@@ -390,6 +427,7 @@ void HelloWorld::onTouchEnded(Touch *touch, Event *event) {
                           Sequence::create(MoveTo::create(realMoveDuration, realDest),
                                              CallFuncN::create(std::bind(&HelloWorld::spriteMoveFinished, this, std::placeholders::_1)),NULL) );
     }
+    if(_swipeOrTouch==0) _swipeOrTouch = 1;
 }
 
 void HelloWorld::menuCloseCallback(Ref* pSender)
@@ -547,12 +585,15 @@ void HelloWorld::update(float dt) {
     
     _elapsedTime += dt;
     
-    ////  Restricted bullets at most 3.
+    ////  Restricted bullets at most 10.
     ////  WORDING MECHANICS
-    if(_shooting > 0 && _reloadTime > 0.5) {
+    if(_shooting > 0 && _reloadTime > 1.0) {
         _reloadTime = 0;
-        _shooting=0;
-    } else if(_shooting > 0 && _reloadTime < 0.5) {
+        if(this->item==0)
+            _shooting -=2;
+        else _shooting = 0;
+        
+    } else if(_shooting > 0 && _reloadTime < 1.0) {
         _reloadTime+=dt;
     }
     _bombReloadTime+=dt;
@@ -562,6 +603,10 @@ void HelloWorld::update(float dt) {
         CCLOG("%d", _monsterNumber);
         _monsterNumber++;
     }
+    
+    if(item>0)
+    this->item-=dt;
+    if(this->item<0) this->item = 0;
     
     if(_weaponType==0)
         image->setTexture(Director::getInstance()->getTextureCache()->addImage("fireBall.png"));
@@ -611,7 +656,7 @@ void HelloWorld::update(float dt) {
                         targetsToDelete.pushBack(target);
                     }
                     projectilesToDelete.pushBack(projectile);
-                    CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("8bitExplosion.aiff");
+                    CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("8bitExplosion.aiff", false, 1.0f, 0.0f, 0.5f);
                     break;
                 }
             }
@@ -628,11 +673,12 @@ void HelloWorld::update(float dt) {
                 Item *healthPack = (Item*)item;
                 healthPack->curHp--;
                 if(healthPack->curHp<=0) {
-                    wordBomb=1;
+//                    wordBomb=1;
+//                    this->item = 5;
                     itemsToDelete.pushBack(item);
                 }
                 projectilesToDelete.pushBack(projectile);
-                CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("8bitExplosion.aiff");
+                CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("8bitExplosion.aiff", false, 1.0f, 0.0f, 0.5f);
             }
         }
         

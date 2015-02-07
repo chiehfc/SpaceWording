@@ -44,6 +44,8 @@ public:
     bool onTextFieldDetachWithIME(cocos2d::TextFieldTTF *sender);
     void update(float dt);
     
+    void activateSpells();
+    
     // implement the "static create()" method manually
     CREATE_FUNC(HelloWorld);
     
@@ -75,9 +77,10 @@ protected:
     Weapon *projectile;
     
     int _gameLevel;
-    
+    float item; //// For spamming the bullets
     cocos2d::Sprite *image;
     BackgroundLayer* _layer;
+    int _swipeOrTouch; //// swipe = 0, touch = 1
 };
 
 
