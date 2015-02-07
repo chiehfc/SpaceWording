@@ -31,6 +31,12 @@ bool CreditScene::init() {
     background->setScale(2.0f, 2.0f);
     this->addChild(background);
     
+    Label* _label = Label::createWithBMFont("double_boxy.fnt", "Made By\nChieh-Fu Chen\nMusic By \nRevampedPRO\nSound Effect By\nrushltd");
+    _label->setAlignment(TextHAlignment::CENTER);
+    _label->setScale(2.0f);
+    _label->setPosition(Vec2(size.width/2, size.height/2));
+    this->addChild(_label);
+    
     auto returnMenuItem = MenuItemImage::create("return.png", "return_pressed.png", CC_CALLBACK_1(CreditScene::returnPressed, this));
     returnMenuItem->setPosition(0, 0-returnMenuItem->getContentSize().height*3);
     returnMenuItem->setScale(1.5f);
