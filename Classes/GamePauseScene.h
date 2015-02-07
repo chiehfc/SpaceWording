@@ -29,8 +29,10 @@ public:
     cocos2d::Label* getLabel() {return _label;}
 private:
     cocos2d::Label* _label;
+    cocos2d::Label* _monsterHPLabel;
+    cocos2d::Label* _monsterTypeLabel;
+    cocos2d::Sprite* _weaponType;
     std::map<std::string, std::string> _monsterFileName;
-    std::vector<std::string> _monsterWords;
     cocos2d::Sprite *_monster;
     int _monsterNumber;
     int _selectedNumber;

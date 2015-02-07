@@ -79,22 +79,28 @@ bool GamePauseLayer::init() {
 //        _monsterFileName["dragon"] = "dragon.png";
 //        _monsterFileName["gengar"] = "gengar.png";
 //        _monsterFileName["turtle"] = "turtle.png";
-
-//        _monsterWords.push_back("bigeye");
-//        _monsterWords.push_back("pirate");
-//        _monsterWords.push_back("swallow");
-//        _monsterWords.push_back("charizard");
-//        _monsterWords.push_back("pikachu");
-//        _monsterWords.push_back("flyingdragon");
-//        _monsterWords.push_back("dragon");
-//        _monsterWords.push_back("gengar");
-//        _monsterWords.push_back("turtle");
         
         this->_label = Label::createWithBMFont("double_boxy.fnt", "bigeye");
         _label->retain();
         _label->setScale(2.0f);
-        _label->setPosition(Point(winSize.width/2,winSize.height*0.6));
+        _label->setPosition(Point(winSize.width/2,winSize.height*0.8));
         this->addChild(_label);
+        
+        this->_monsterHPLabel = Label::createWithBMFont("double_boxy.fnt", "HP: 1");
+        _monsterHPLabel->retain();
+        _monsterHPLabel->setScale(1.5f);
+        _monsterHPLabel->setPosition(Point(winSize.width/2,winSize.height*0.7));
+        this->addChild(_monsterHPLabel);
+        
+        this->_monsterTypeLabel = Label::createWithBMFont("double_boxy.fnt", "Type: ");
+        _monsterTypeLabel->retain();
+        _monsterTypeLabel->setScale(1.5f);
+        _monsterTypeLabel->setPosition(Point(winSize.width/2,winSize.height*0.63));
+        this->addChild(_monsterTypeLabel);
+        
+        this->_weaponType = Sprite::create("fireBall.png", Rect(0,0,32,32));
+        _weaponType->setPosition(Point(winSize.width*0.6,winSize.height*0.65));
+        this->addChild(_weaponType);
         
         auto gameResumeItem = MenuItemImage::create(
                                                "return.png",
@@ -144,11 +150,27 @@ void GamePauseLayer::minusMonsterNumberCallback(cocos2d::Ref *pSender)
 {
     if(_selectedNumber>1 && _selectedNumber<=_monsterNumber) {
         _selectedNumber--;
-        _label->setString(_monsterWords[_selectedNumber-1].c_str());
+        
+        //// Monster Name Label
+        _label->setString(_monsterType[_selectedNumber-1]->word.c_str());
+        
+        //// Monster HP Label
+        char text[256];
+        sprintf(text, "Hp: %d", _monsterType.at(_selectedNumber-1)->curHp);
+        _monsterHPLabel->setString(text);
 
+        //// Monster Type Label
+        int weapon = _monsterType.at(_selectedNumber-1)->monsterType;
+        if(weapon==0)
+            _weaponType->setTexture(Director::getInstance()->getTextureCache()->addImage("fireBall.png"));
+        else if(weapon==1)
+            _weaponType->setTexture(Director::getInstance()->getTextureCache()->addImage("iceBall.png"));
+        else if(weapon==2)
+            _weaponType->setTexture(Director::getInstance()->getTextureCache()->addImage("thunderBall.png"));
+
+        //// Show Monster Image
         SpriteFrameCache* frameCache = SpriteFrameCache::getInstance();
         SpriteFrame *frame = frameCache
-//        ->getSpriteFrameByName(_monsterFileName[_monsterWords[_selectedNumber-1].c_str()].c_str());
         ->getSpriteFrameByName(_monsterFileName[_monsterType.at(_selectedNumber-1)->word.c_str()].c_str());
         
         _monster->setDisplayFrame(frame);
@@ -159,11 +181,28 @@ void GamePauseLayer::addMonsterNumberCallback(cocos2d::Ref *pSender)
 {
     if(_selectedNumber>=1 && _selectedNumber<_monsterNumber) {
         _selectedNumber++;
-        _label->setString(_monsterWords[_selectedNumber-1].c_str());
         
+        //// Monster Name Label
+        _label->setString(_monsterType[_selectedNumber-1]->word.c_str());
+        
+        //// Monster HP Label
+        char text[256];
+        sprintf(text, "Hp: %d", _monsterType.at(_selectedNumber-1)->curHp);
+        _monsterHPLabel->setString(text);
+        
+        
+        //// Monster Type Label
+        int weapon = _monsterType.at(_selectedNumber-1)->monsterType;
+        if(weapon==0)
+            _weaponType->setTexture(Director::getInstance()->getTextureCache()->addImage("fireBall.png"));
+        else if(weapon==1)
+            _weaponType->setTexture(Director::getInstance()->getTextureCache()->addImage("iceBall.png"));
+        else if(weapon==2)
+            _weaponType->setTexture(Director::getInstance()->getTextureCache()->addImage("thunderBall.png"));
+        
+        //// Show Monster Image
         SpriteFrameCache* frameCache = SpriteFrameCache::getInstance();
         SpriteFrame *frame = frameCache
-//        ->getSpriteFrameByName(_monsterFileName[_monsterWords[_selectedNumber-1].c_str()].c_str());
         ->getSpriteFrameByName(_monsterFileName[_monsterType.at(_selectedNumber-1)->word.c_str()].c_str());
 
         _monster->setDisplayFrame(frame);
