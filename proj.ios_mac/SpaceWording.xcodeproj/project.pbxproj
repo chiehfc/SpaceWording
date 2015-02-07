@@ -58,6 +58,8 @@
 		4249BB941A76154400E44F0A /* tiny_ship.png in Resources */ = {isa = PBXBuildFile; fileRef = 4249BB931A76154400E44F0A /* tiny_ship.png */; };
 		4249BB971A77385500E44F0A /* double_boxy.png in Resources */ = {isa = PBXBuildFile; fileRef = 4249BB951A77385400E44F0A /* double_boxy.png */; };
 		4249BB981A77385500E44F0A /* double_boxy.fnt in Resources */ = {isa = PBXBuildFile; fileRef = 4249BB961A77385400E44F0A /* double_boxy.fnt */; };
+		426B60271A8302810020F557 /* bgm_action_4.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 426B60261A8302810020F557 /* bgm_action_4.mp3 */; };
+		426B60291A85831C0020F557 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 426B60281A85831C0020F557 /* iAd.framework */; };
 		427EA4901A1E8690000B0EDC /* explosion_large.caf in Resources */ = {isa = PBXBuildFile; fileRef = 427EA4891A1E8690000B0EDC /* explosion_large.caf */; };
 		427EA4911A1E8690000B0EDC /* explosion_small.caf in Resources */ = {isa = PBXBuildFile; fileRef = 427EA48A1A1E8690000B0EDC /* explosion_small.caf */; };
 		427EA4921A1E8690000B0EDC /* laser_enemy.caf in Resources */ = {isa = PBXBuildFile; fileRef = 427EA48B1A1E8690000B0EDC /* laser_enemy.caf */; };
@@ -245,6 +247,8 @@
 		4249BB931A76154400E44F0A /* tiny_ship.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tiny_ship.png; sourceTree = "<group>"; };
 		4249BB951A77385400E44F0A /* double_boxy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = double_boxy.png; sourceTree = "<group>"; };
 		4249BB961A77385400E44F0A /* double_boxy.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = double_boxy.fnt; sourceTree = "<group>"; };
+		426B60261A8302810020F557 /* bgm_action_4.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = bgm_action_4.mp3; sourceTree = "<group>"; };
+		426B60281A85831C0020F557 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.1.sdk/System/Library/Frameworks/iAd.framework; sourceTree = DEVELOPER_DIR; };
 		427EA4891A1E8690000B0EDC /* explosion_large.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = explosion_large.caf; sourceTree = "<group>"; };
 		427EA48A1A1E8690000B0EDC /* explosion_small.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = explosion_small.caf; sourceTree = "<group>"; };
 		427EA48B1A1E8690000B0EDC /* laser_enemy.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = laser_enemy.caf; sourceTree = "<group>"; };
@@ -347,6 +351,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				426B60291A85831C0020F557 /* iAd.framework in Frameworks */,
 				1AC6FB30180E99EB004C840B /* libcocos2d iOS.a in Frameworks */,
 				D6B0611B1803AB670077942B /* CoreMotion.framework in Frameworks */,
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
@@ -432,6 +437,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				426B60281A85831C0020F557 /* iAd.framework */,
 				D6B0611A1803AB670077942B /* CoreMotion.framework */,
 				503AE11A17EB9C5A00D1A890 /* IOKit.framework */,
 				503AE11117EB99EE00D1A890 /* libcurl.dylib */,
@@ -469,6 +475,7 @@
 			isa = PBXGroup;
 			children = (
 				420BF9CD1A7B7301003E3709 /* rightArrow_pressed.png */,
+				426B60261A8302810020F557 /* bgm_action_4.mp3 */,
 				4242D2AD1A808BBE0028E1CD /* Laser1.wav */,
 				4242D2AB1A808B120028E1CD /* 8bit_shoot.wav */,
 				4242D2A91A8078450028E1CD /* Background.mp3 */,
@@ -732,6 +739,7 @@
 				5087E78117EB970100C73F5D /* Icon-120.png in Resources */,
 				427EA4951A1E8690000B0EDC /* shake.caf in Resources */,
 				420BF9C81A7A0EB5003E3709 /* return_pressed.png in Resources */,
+				426B60271A8302810020F557 /* bgm_action_4.mp3 in Resources */,
 				420BF9BE1A79E3ED003E3709 /* spaceMonster3.plist in Resources */,
 				420BF9D41A7B7301003E3709 /* leftArrow.png in Resources */,
 				5087E78617EB970100C73F5D /* Icon-76.png.bk in Resources */,
