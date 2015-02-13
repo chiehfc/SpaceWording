@@ -6,6 +6,7 @@
 #include "Monster.h"
 #include "Item.h"
 #include "Weapon.h"
+#include "HintScene.h"
 #include <time.h>
 
 USING_NS_CC;
@@ -62,6 +63,69 @@ void BackgroundLayer::update(float dt)
     
 }
 
+bool HintLayer::init() {
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+    Size winSize = Director::getInstance()->getWinSize();
+    
+    auto listener = EventListenerTouchOneByOne::create();
+    listener->onTouchBegan = CC_CALLBACK_2(HintLayer::onTouchBegan,this);
+    Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
+    
+    Director::getInstance()->pause();
+    
+    clip = ClippingNode::create();
+    clip->setInverted(true);
+    clip->setAlphaThreshold(0.0f);
+    this->addChild(clip, 10);
+    
+    LayerColor *bg = LayerColor::create(Color4B(0, 0, 0, 200), visibleSize.width, visibleSize.height);
+    clip->addChild(bg,1);
+    
+
+    auto prompt = Label::createWithBMFont("double_boxy.fnt", "Swipe up/down\nto change weapon\n\nSwipe right\nto cast spells\n\nDARK: special weapon\nFROST: slow down monsters");
+//    prompt->setScale(2.0f);
+    prompt->setPosition(Vec2(winSize.width*0.3, winSize.height/2));
+    clip->addChild(prompt,11);
+
+    auto prompt2 = Label::createWithBMFont("double_boxy.fnt", "Kill monster\nwith specific weapon");
+//    prompt2->setScale(2.0f);
+    prompt2->setPosition(Vec2(winSize.width*0.75, winSize.height/2));
+    clip->addChild(prompt2,11);
+    auto monster = Sprite::create("spaceMonster2_1.png");
+    monster->setPosition(Vec2(winSize.width-monster->getContentSize().width, winSize.height/2));
+    clip->addChild(monster,12);
+    
+    auto prompt3 = Label::createWithBMFont("double_boxy.fnt", "Look up monster's weakness\nwhen pausing");
+    //    prompt3->setScale(2.0f);
+    prompt3->setPosition(Vec2(winSize.width*0.75, winSize.height*0.75));
+    clip->addChild(prompt3,11);
+    auto pauseButton = Sprite::create("pause.png");
+    pauseButton->setPosition(Vec2(winSize.width*0.85, winSize.height*0.85));
+    clip->addChild(pauseButton,12);
+
+    auto prompt4 = Label::createWithBMFont("double_boxy.fnt", "Cast Spells\nafter you hit this!");
+    //    prompt4->setScale(2.0f);
+    prompt4->setPosition(Vec2(winSize.width*0.75, winSize.height*0.25));
+    clip->addChild(prompt4,11);
+    auto scrollItem = Sprite::create("scroll.png");
+    scrollItem->setPosition(Vec2(winSize.width*0.85, winSize.height*0.3));
+    clip->addChild(scrollItem,12);
+    
+    auto node =  Node::create();
+    auto player = Sprite::create("mage-02.png");
+    node->addChild(player);
+    node->setPosition(Vec2(player->getContentSize().width/2, winSize.height/2));
+    clip->setStencil(node);
+    
+    return true;
+}
+
+bool HintLayer::onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *event) {
+    Director::getInstance()->resume();
+    this->removeChild(clip);
+    return false;
+}
+
 // on "init" you need to initialize your instance
 bool HelloWorld::init()
 {
@@ -76,8 +140,12 @@ bool HelloWorld::init()
 //    layerr->setZOrder(2);
     this->addChild(layerr);
     
+    auto hintLayer = HintLayer::create();
+    hintLayer->setZOrder(100);
+    this->addChild(hintLayer);
+    
+    
     CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic("bgm_action_4.mp3", true);
-    Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     _elapsedTime = 0;
     _projectilesDestroyed = 0;
@@ -86,11 +154,15 @@ bool HelloWorld::init()
     _bombReloadTime = 0;
     
     _weaponType = 0;
-
+    _weaponTime = 0;
+    
+    
     swipeBegin = false;
     wordBomb = 0;
     item = 0;
     _swipeOrTouch = 0;
+    _bossSpawning = 0;
+    
     
     int gameLevel = UserDefault::getInstance()->getIntegerForKey("GameLevel");
     float gameSecond = (float)1/(float)gameLevel;
@@ -103,18 +175,18 @@ bool HelloWorld::init()
     //    you may modify it.
 
     // add a "close" icon to exit the progress. it's an autorelease object
-    auto closeItem = MenuItemImage::create(
-                                           "CloseNormal.png",
-                                           "CloseSelected.png",
-                                           CC_CALLBACK_1(HelloWorld::menuCloseCallback, this));
-    
-	closeItem->setPosition(Vec2(origin.x + visibleSize.width - closeItem->getContentSize().width/2 ,
-                                origin.y + closeItem->getContentSize().height/2));
-
-    // create menu, it's an autorelease object
-    auto menu = Menu::create(closeItem, NULL);
-    menu->setPosition(Vec2::ZERO);
-    this->addChild(menu, 1);
+//    auto closeItem = MenuItemImage::create(
+//                                           "CloseNormal.png",
+//                                           "CloseSelected.png",
+//                                           CC_CALLBACK_1(HelloWorld::menuCloseCallback, this));
+//    
+//	closeItem->setPosition(Vec2(origin.x + visibleSize.width - closeItem->getContentSize().width/2 ,
+//                                origin.y + closeItem->getContentSize().height/2));
+//
+//    // create menu, it's an autorelease object
+//    auto menu = Menu::create(closeItem, NULL);
+//    menu->setPosition(Vec2::ZERO);
+//    this->addChild(menu, 1);
 
     this->_monsterNumber = UserDefault::getInstance()->getIntegerForKey("MonsterNumber");
     CCLOG("%d", this->_monsterNumber);
@@ -141,21 +213,22 @@ bool HelloWorld::init()
     // add a label shows "Hello World"
     // create and initialize a label
     
-    player = Sprite::create("spaceShip.png", Rect(0, 0, 64, 64));
+    player = Sprite::create("mage-02.png", Rect(0, 0, 64, 64));
     player->setPosition(Vec2(player->getContentSize().width/2, winSize.height/2));
     this->addChild(player,3);
     
-    this->scoreLabel = Label::createWithBMFont("double_boxy.fnt", "Score: 0");
-    scoreLabel->setScale(2.0f);
-    scoreLabel->setPosition(Vec2(150, winSize.height-80));
-    this->addChild(scoreLabel);
+//    this->scoreLabel = Label::createWithBMFont("double_boxy.fnt", "Score: 0");
+//    scoreLabel->setScale(2.0f);
+//    scoreLabel->setPosition(Vec2(150, winSize.height-80));
+//    this->addChild(scoreLabel);
 
     this->timeLabel = Label::createWithBMFont("double_boxy.fnt", "Time: 0");
     timeLabel->setScale(2.0f);
-    timeLabel->setPosition(Vec2(600, winSize.height-80));
+
+    timeLabel->setPosition(Vec2(200, winSize.height-80));
     this->addChild(timeLabel);
     
-    this->textField = TextFieldTTF::textFieldWithPlaceHolder("Word Input", Size(200,200), TextHAlignment::CENTER, "fonts/Marker Felt.ttf", 32);
+    this->textField = TextFieldTTF::textFieldWithPlaceHolder("", Size(200,200), TextHAlignment::CENTER, "fonts/Marker Felt.ttf", 32);
     textField->setPosition(Vec2(150, winSize.height/2));
     this->addChild(textField);
     
@@ -163,6 +236,12 @@ bool HelloWorld::init()
     weaponLabel->setScale(2.0f);
     weaponLabel->setPosition(Vec2(150, winSize.height-160));
     this->addChild(weaponLabel);
+    
+    this->spellLabel = Label::createWithBMFont("double_boxy.fnt", "Cast Spells!");
+    spellLabel->setScale(2.0f);
+    spellLabel->setPosition(Vec2(250, winSize.height-240));
+    spellLabel->setVisible(false);
+    this->addChild(spellLabel);
     
     image = Sprite::create("fireBall.png", Rect(0,0,32,32));
     image->setPosition(Vec2(300, winSize.height-140));
@@ -205,7 +284,7 @@ bool HelloWorld::init()
     this->schedule(schedule_selector(HelloWorld::gameLogic), gameSecond);
 
     this->schedule(schedule_selector(HelloWorld::itemLogic), 10.0);
-    
+
     this->schedule(schedule_selector(HelloWorld::update));
     return true;
 }
@@ -239,6 +318,9 @@ void HelloWorld::onSwipeEnded(cocos2d::Touch *touch, cocos2d::Event *event) {
             else if (delta.x < -15)
             {
                 CCLOG("SWIPE RIGHT");
+                if(wordBomb==1)
+                    this->textField->attachWithIME();
+                _swipeOrTouch = 0;
             }
         }
         else
@@ -246,7 +328,7 @@ void HelloWorld::onSwipeEnded(cocos2d::Touch *touch, cocos2d::Event *event) {
             if(delta.y > 15)
             {
                 CCLOG("SWIPE DOWN");
-                if(_weaponType<2) {
+                if(_weaponType<2 && _weaponType>=0) {
                     _weaponType++;
                     _swipeOrTouch = 0;
                 }
@@ -254,7 +336,7 @@ void HelloWorld::onSwipeEnded(cocos2d::Touch *touch, cocos2d::Event *event) {
             else if (delta.y < -15)
             {
                 CCLOG("SWIPE UP");
-                if(_weaponType>0) {
+                if(_weaponType>0 && _weaponType<=2) {
                     _weaponType--;
                     _swipeOrTouch = 0;
                 }
@@ -268,7 +350,7 @@ void HelloWorld::onSwipeEnded(cocos2d::Touch *touch, cocos2d::Event *event) {
 bool HelloWorld::textFieldOnTouchBegan(cocos2d::Touch *touch, cocos2d::Event *event) {
     if(this->textField->getBoundingBox().containsPoint(touch->getLocation())) {
 //        if (wordBomb==1) {
-            this->textField->attachWithIME();   // WORDING_MECHANICS
+//            this->textField->attachWithIME();   // WORDING_MECHANICS
 //            wordBomb=0;
 //        }
     }
@@ -299,6 +381,11 @@ bool HelloWorld::onTextFieldDetachWithIME(cocos2d::TextFieldTTF *sender) {
     if(strcmp(sender->getString().c_str(), "scroll")==0)
         activateSpells();
     
+    if(strcmp(sender->getString().c_str(), "dark")==0)
+        this->_weaponType = 4;
+    wordBomb = 0;
+    item=0;
+    
     for(std::string word:_words)
     {
         if(strcmp(sender->getString().c_str(), word.c_str())==0) {
@@ -321,9 +408,9 @@ bool HelloWorld::onTextFieldDetachWithIME(cocos2d::TextFieldTTF *sender) {
         }
     }
     
-    char textmsg[256];
-    sprintf(textmsg,"Score: %d", _projectilesDestroyed);
-    this->scoreLabel->setString(textmsg);
+//    char textmsg[256];
+//    sprintf(textmsg,"Score: %d", _projectilesDestroyed);
+//    this->scoreLabel->setString(textmsg);
     
     return false;
 }
@@ -396,6 +483,8 @@ void HelloWorld::onTouchEnded(Touch *touch, Event *event) {
         projectile = IceBall::ice();
     else if (_weaponType==2)
         projectile = ThunderBall::thunder();
+    else if (_weaponType==4)
+        projectile = DarkBall::dark();
 
     projectile->setPosition(Vec2(20, winSize.height/2));
     
@@ -489,7 +578,7 @@ void HelloWorld::addTarget() {
     targetCool[0] = WeakAndFastMonster::monster();
     targetCool[1] = StrongAndSlowMonster::monster();
     targetCool[2] = IvysaurMonster::monster();
-    targetCool[3] = CharizardMonster::monster();
+    targetCool[3] = specialBoss::monster();
     targetCool[4] = pikachuMonster::monster();
     targetCool[5] = flyingDragonMonster::monster();
     targetCool[6] = dragonMonster::monster();
@@ -500,7 +589,12 @@ void HelloWorld::addTarget() {
     Monster *target = NULL;
     int temp = CCRANDOM_0_1()*100;
     temp = temp % _monsterNumber;
-    target = targetCool[temp];
+    if(_bossSpawning==1) {
+        target = targetCool[3];
+        _bossSpawning = 0;
+    }
+    else
+        target = targetCool[temp];
 
     Size winSize = Director::getInstance()->getWinSize();
     
@@ -510,7 +604,7 @@ void HelloWorld::addTarget() {
     target->setTag(1);
     _targets.pushBack(target);
     
-    int minY = target->getContentSize().height/2;
+    int minY = target->getContentSize().height*2;
     int maxY = winSize.height - target->getContentSize().height/2;
     
     int rangeY = maxY-minY;
@@ -587,26 +681,40 @@ void HelloWorld::update(float dt) {
     
     ////  Restricted bullets at most 10.
     ////  WORDING MECHANICS
-    if(_shooting > 0 && _reloadTime > 1.0) {
+    if(_shooting >= 0 && _reloadTime > 1.0) {
         _reloadTime = 0;
-        if(this->item==0)
+        if(UserDefault::getInstance()->getIntegerForKey("GameLevel")!=3 && this->_weaponType!=4)
             _shooting -=2;
         else _shooting = 0;
         
-    } else if(_shooting > 0 && _reloadTime < 1.0) {
+    } else if(_shooting >= 0 && _reloadTime < 1.0) {
         _reloadTime+=dt;
     }
     _bombReloadTime+=dt;
-    if(_bombReloadTime>10 && _monsterNumber<3)
+    if(_bombReloadTime>20 && _monsterNumber<3)
     {
         _bombReloadTime=0;
         CCLOG("%d", _monsterNumber);
         _monsterNumber++;
+        
+////  Trigger Boss Spawning
+//        _bossSpawning = 1;
     }
     
-    if(item>0)
-    this->item-=dt;
-    if(this->item<0) this->item = 0;
+    if(this->_weaponType==4 && _weaponTime < 5.0) {
+        _weaponTime+=dt;
+    } else if(this->_weaponType==4 && _weaponTime >=5.0) {
+        _weaponTime = 0;
+        this->_weaponType = 0;
+    }
+
+    if(this->item==1) {
+        this->spellLabel->setVisible(true);
+    } else this->spellLabel->setVisible(false);
+    
+//    if(item>0)
+//    this->item-=dt;
+//    if(this->item<0) this->item = 0;
     
     if(_weaponType==0)
         image->setTexture(Director::getInstance()->getTextureCache()->addImage("fireBall.png"));
@@ -614,6 +722,8 @@ void HelloWorld::update(float dt) {
         image->setTexture(Director::getInstance()->getTextureCache()->addImage("iceBall.png"));
     else if(_weaponType==2)
         image->setTexture(Director::getInstance()->getTextureCache()->addImage("thunderBall.png"));
+    else if(_weaponType==4)
+        image->setTexture(Director::getInstance()->getTextureCache()->addImage("darkBall.png"));
     
 //    if(wordBomb==0 && _bombReloadTime<5.0) {
 //        _bombReloadTime+=dt;
@@ -649,7 +759,7 @@ void HelloWorld::update(float dt) {
                 //// SHOOTING MECHANICS
                 monsterHit = true;
                 Monster *monster = (Monster*)target;
-                if(monster->monsterType==projectile->weaponType)
+                if(monster->monsterType==projectile->weaponType || (projectile->weaponType == 4))
                 {
                     monster->curHp--;
                     if(monster->curHp<=0) {
@@ -673,8 +783,9 @@ void HelloWorld::update(float dt) {
                 Item *healthPack = (Item*)item;
                 healthPack->curHp--;
                 if(healthPack->curHp<=0) {
-//                    wordBomb=1;
-//                    this->item = 5;
+//                    this->_weaponType = 4;
+                    wordBomb=1;
+                    this->item = 1;
                     itemsToDelete.pushBack(item);
                 }
                 projectilesToDelete.pushBack(projectile);
@@ -700,10 +811,10 @@ void HelloWorld::update(float dt) {
             monster->runAction(seq);
             
 //            this->removeChild(target, true);
-            _projectilesDestroyed++;
-            char text[256];
-            sprintf(text,"Score: %d", _projectilesDestroyed);
-            this->scoreLabel->setString(text);
+//            _projectilesDestroyed++;
+//            char text[256];
+//            sprintf(text,"Score: %d", _projectilesDestroyed);
+//            this->scoreLabel->setString(text);
         }
         if (targetsToDelete.size() > 0)
         {

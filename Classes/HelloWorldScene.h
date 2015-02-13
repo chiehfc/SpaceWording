@@ -15,6 +15,23 @@ private:
     cocos2d::Sprite *background2;
 };
 
+class HintLayer : public cocos2d::Layer
+{
+public:
+    virtual bool init();
+    CREATE_FUNC(HintLayer);
+    bool onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *event);
+
+    cocos2d::ClippingNode *clip;
+    //    virtual void registerWithTouchDispatcher();
+    //    virtual bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent);
+    //
+    //    CCClippingNode* clip;
+    //    CCSprite* tip;
+private:
+    int _page;
+};
+
 class HelloWorld : public cocos2d::Layer, public cocos2d::TextFieldDelegate
 {
 public:
@@ -61,6 +78,7 @@ protected:
     cocos2d::Label *wordLabel;
     cocos2d::Label *timeLabel;
     cocos2d::Label *weaponLabel;
+    cocos2d::Label *spellLabel;
     float _elapsedTime;
     cocos2d::TextFieldTTF *textField;
     int _shooting;
@@ -69,6 +87,7 @@ protected:
     int wordBomb;
     //// Fire = 0, Ice = 1, Thunder = 2.
     int _weaponType;
+    float _weaponTime;
     
     cocos2d::Point startSwipe;
     cocos2d::Point endSwipe;
@@ -81,6 +100,7 @@ protected:
     cocos2d::Sprite *image;
     BackgroundLayer* _layer;
     int _swipeOrTouch; //// swipe = 0, touch = 1
+    int _bossSpawning;
 };
 
 
