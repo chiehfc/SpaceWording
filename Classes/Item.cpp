@@ -13,7 +13,7 @@ USING_NS_CC;
 HealthPack* HealthPack::healthPack(void)
 {
     HealthPack *healthPack = new HealthPack();
-    if (healthPack && healthPack->initWithFile("healthPacks.png"))
+    if (healthPack && healthPack->initWithFile("scroll.png"))
     {
         healthPack->curHp =1;
         healthPack->minMoveDuration =6;
