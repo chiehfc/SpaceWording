@@ -43,7 +43,7 @@ bool GameMenuScene::init() {
     titleLabel->setPosition(Point(size.width/2,size.height*0.7));
     this->addChild(titleLabel);
 
-    auto anotherLabel = Label::createWithBMFont("double_boxy.fnt", "Wording");
+    auto anotherLabel = Label::createWithBMFont("double_boxy.fnt", "Spells");
     anotherLabel->setScale(2.5f);
     anotherLabel->setPosition(Point(size.width/2,size.height*0.65));
     this->addChild(anotherLabel);
