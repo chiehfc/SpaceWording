@@ -394,3 +394,28 @@ turtleMonster* turtleMonster::monster(void)
     }
     return monster;
 }
+
+specialBoss* specialBoss::monster(void)
+{
+    specialBoss * monster = new specialBoss();
+    if (monster && monster->initWithSpriteFrameName("spaceMonster1_1.png"))
+    {
+        monster->setScale(2.0f, 2.0f);
+        monster->curHp = 5;
+        monster->minMoveDuration = 12;
+        monster->maxMoveDuration = 16;
+        monster->destroying = 0;
+        monster->locking = 0;
+        monster->word = "turtle";
+        monster->monsterType = 4;
+        monster->autorelease();
+    }
+    else
+    {
+        CC_SAFE_DELETE(monster);
+    }
+    return monster;
+}
+
+
+

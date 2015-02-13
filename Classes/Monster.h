@@ -90,4 +90,10 @@ class dragonMonster : public Monster
 //    cocos2d::RepeatForever *movingAnimation();
 };
 
+class specialBoss : public Monster
+{
+    public:
+    static specialBoss* monster(void);
+};
+
 #endif /* defined(__SpaceWording__Monster__) */
