@@ -26,6 +26,7 @@
 #import "RootViewController.h"
 #import "cocos2d.h"
 #import "platform/ios/CCEAGLView-ios.h"
+#import "BannerViewController.h"
 
 @implementation RootViewController
 
@@ -39,6 +40,26 @@
 }
 */
 
+//- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+//    if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) {
+//        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willBeginBannerViewActionNotification:) name:BannerViewActionWillBegin object:nil];
+//        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didFinishBannerViewActionNotification:) name:BannerViewActionDidFinish object:nil];
+//    }
+//    return self;
+//    
+//}
+
+//
+//- (void)willBeginBannerViewActionNotification:(NSNotification *)notification
+//{
+//    NSLog(@"willBeginBannerViewActionNotification");
+//}
+//
+//- (void)didFinishBannerViewActionNotification:(NSNotification *)notification
+//{
+//    NSLog(@"didFinishBannerViewActionNotification");
+//}
+
 /*
 // Implement loadView to create a view hierarchy programmatically, without using a nib.
 - (void)loadView {
@@ -50,8 +71,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 }
-
 */
+
 // Override to allow orientations other than the default portrait orientation.
 // This method is deprecated on ios6
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
