@@ -60,3 +60,21 @@ ThunderBall* ThunderBall::thunder(void)
     
     return thunder;
 }
+
+DarkBall* DarkBall::dark(void)
+{
+    DarkBall* dark = new DarkBall();
+    if (dark && dark->initWithFile("darkBall.png"))
+    {
+        dark->weaponType = 4;
+        dark->autorelease();
+    }
+    else
+    {
+        CC_SAFE_DELETE(dark);
+    }
+    
+    return dark;
+    
+}
+

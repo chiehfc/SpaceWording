@@ -35,4 +35,10 @@ class ThunderBall : public Weapon {
 public:
     static ThunderBall* thunder(void);
 };
+
+class DarkBall : public Weapon {
+public:
+    static DarkBall* dark(void);
+};
+
 #endif /* defined(__SpaceWording__Weapon__) */
