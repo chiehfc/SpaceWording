@@ -10,6 +10,7 @@
 #define __SpaceWording__HintScene__
 
 #include <stdio.h>
+#include "cocos2d.h"
 
 class HintScene : public cocos2d::Layer
 {
