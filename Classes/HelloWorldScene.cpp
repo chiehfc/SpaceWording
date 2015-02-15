@@ -378,7 +378,7 @@ bool HelloWorld::onTextFieldDetachWithIME(cocos2d::TextFieldTTF *sender) {
         this->_weaponType = 2;
     else this->_weaponType = 0;
     
-    if(strcmp(sender->getString().c_str(), "scroll")==0)
+    if(strcmp(sender->getString().c_str(), "frost")==0)
         activateSpells();
     
     if(strcmp(sender->getString().c_str(), "dark")==0)
